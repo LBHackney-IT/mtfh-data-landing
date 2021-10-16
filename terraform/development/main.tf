@@ -38,63 +38,63 @@ terraform {
   }
 }
 
-data "aws_ssm_parameter" "person_sns_topic_arn" {
-  name = "/sns-topic/development/person/arn"
-}
+# data "aws_ssm_parameter" "person_sns_topic_arn" {
+#   name = "/sns-topic/development/person/arn"
+# }
 
-resource "aws_sqs_queue" "mtfh_data_landing_dead_letter_queue" {
-  name                        = "mtfhdatalandingdeadletterqueue.fifo"
-  fifo_queue                  = true
-  content_based_deduplication = true
-  kms_master_key_id           = "alias/housing-development-cmk"
-  kms_data_key_reuse_period_seconds = 300
-}
+# resource "aws_sqs_queue" "mtfh_data_landing_dead_letter_queue" {
+#   name                        = "mtfhdatalandingdeadletterqueue.fifo"
+#   fifo_queue                  = true
+#   content_based_deduplication = true
+#   kms_master_key_id           = "alias/housing-development-cmk"
+#   kms_data_key_reuse_period_seconds = 300
+# }
 
-resource "aws_sqs_queue" "mtfh_data_landing_queue" {
-  name                        = "mtfhdatalandingqueue.fifo"
-  fifo_queue                  = true
-  content_based_deduplication = true
-  kms_master_key_id           = "alias/housing-development-cmk"
-  kms_data_key_reuse_period_seconds = 300
-  redrive_policy              = jsonencode({
-    deadLetterTargetArn = aws_sqs_queue.mtfh_data_landing_dead_letter_queue.arn,
-    maxReceiveCount     = 3
-  })
-}
+# resource "aws_sqs_queue" "mtfh_data_landing_queue" {
+#   name                        = "mtfhdatalandingqueue.fifo"
+#   fifo_queue                  = true
+#   content_based_deduplication = true
+#   kms_master_key_id           = "alias/housing-development-cmk"
+#   kms_data_key_reuse_period_seconds = 300
+#   redrive_policy              = jsonencode({
+#     deadLetterTargetArn = aws_sqs_queue.mtfh_data_landing_dead_letter_queue.arn,
+#     maxReceiveCount     = 3
+#   })
+# }
 
-resource "aws_sqs_queue_policy" "mtfh_data_landing_queue_policy" {
-  queue_url = aws_sqs_queue.mtfh_data_landing_queue.id
-  policy = <<POLICY
-  {
-      "Version": "2012-10-17",
-      "Id": "sqspolicy",
-      "Statement": [
-      {
-          "Sid": "First",
-          "Effect": "Allow",
-          "Principal": "*",
-          "Action": "sqs:SendMessage",
-          "Resource": "${aws_sqs_queue.mtfh_data_landing_queue.arn}",
-          "Condition": {
-          "ArnEquals": {
-              "aws:SourceArn": "${data.aws_ssm_parameter.person_sns_topic_arn.value}"
-          }
-          }
-      }
-      ]
-  }
-  POLICY
-}
+# resource "aws_sqs_queue_policy" "mtfh_data_landing_queue_policy" {
+#   queue_url = aws_sqs_queue.mtfh_data_landing_queue.id
+#   policy = <<POLICY
+#   {
+#       "Version": "2012-10-17",
+#       "Id": "sqspolicy",
+#       "Statement": [
+#       {
+#           "Sid": "First",
+#           "Effect": "Allow",
+#           "Principal": "*",
+#           "Action": "sqs:SendMessage",
+#           "Resource": "${aws_sqs_queue.mtfh_data_landing_queue.arn}",
+#           "Condition": {
+#           "ArnEquals": {
+#               "aws:SourceArn": "${data.aws_ssm_parameter.person_sns_topic_arn.value}"
+#           }
+#           }
+#       }
+#       ]
+#   }
+#   POLICY
+# }
 
-resource "aws_sns_topic_subscription" "mtfh_data_landing_queue_subscribe_to_person_sns" {
-  topic_arn = data.aws_ssm_parameter.person_sns_topic_arn.value
-  protocol  = "sqs"
-  endpoint  = aws_sqs_queue.mtfh_data_landing_queue.arn
-  raw_message_delivery = true
-}
+# resource "aws_sns_topic_subscription" "mtfh_data_landing_queue_subscribe_to_person_sns" {
+#   topic_arn = data.aws_ssm_parameter.person_sns_topic_arn.value
+#   protocol  = "sqs"
+#   endpoint  = aws_sqs_queue.mtfh_data_landing_queue.arn
+#   raw_message_delivery = true
+# }
 
-resource "aws_ssm_parameter" "mtfh_data_landing_sqs_queue_arn" {
-  name  = "/sqs-queue/development/mtfh_data_landing/arn"
-  type  = "String"
-  value = aws_sqs_queue.mtfh_data_landing_queue.arn
-}
+# resource "aws_ssm_parameter" "mtfh_data_landing_sqs_queue_arn" {
+#   name  = "/sqs-queue/development/mtfh_data_landing/arn"
+#   type  = "String"
+#   value = aws_sqs_queue.mtfh_data_landing_queue.arn
+# }
