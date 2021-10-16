@@ -20,12 +20,10 @@ functions:
     handler: MTFHDataLanding::MTFHDataLanding.SqsFunction::FunctionHandler
     role: lambdaExecutionRole
     environment:
-      ### Re-use the same parameter as used by web api applications
-      ENVIRONMENT:  ${ssm:/housing-tl/${self:provider.stage}/aspnetcore-environment}
+      PersonApiUrl: ${ssm:/housing-tl/${self:provider.stage}/person-api-url}
+      PersonApiToken: ${ssm:/housing-tl/${self:provider.stage}/person-api-token}
     events:
-      ### Specify the parameter containing the queue arn used to trigget the lambda function here
-      ### This will have been defined in the terraform configuration
-      # - sqs: ${ssm:/sqs-queue/${self:provider.stage}/tenures/arn} 
+      - sqs: ${ssm:/sqs-queue/${self:provider.stage}/mtfh_data_landing/arn}
       
 resources:
   Resources:
@@ -79,37 +77,6 @@ resources:
                   Action:
                     - "lambda:InvokeFunction"
                   Resource: "*"
-          ### Remove this if DynamoDb is not being used
-          ### TODO - Enable and change the table name as required.
-          #- PolicyName: dynamoDBAccess
-          #  PolicyDocument:
-          #    Version: '2012-10-17'
-          #    Statement:
-          #      - Effect: Allow
-          #        Action:
-          #          - "dynamodb:BatchGet*"
-          #          - "dynamodb:BatchWrite"
-          #          - "dynamodb:DeleteItem"
-          #          - "dynamodb:DescribeStream"
-          #          - "dynamodb:DescribeTable"
-          #          - "dynamodb:Get*"
-          #          - "dynamodb:PutItem"
-          #          - "dynamodb:Query"
-          #          - "dynamodb:Scan"
-          #          - "dynamodb:UpdateItem"
-          #        Resource:
-          #          - 'Fn::Join':
-          #              - ':'
-          #              - - 'arn:aws:dynamodb'
-          #                - Ref: 'AWS::Region'
-          #                - Ref: 'AWS::AccountId'
-          #                - 'table/SomeTable'
-          #          - 'Fn::Join':
-          #              - ':'
-          #              - - 'arn:aws:dynamodb'
-          #                - Ref: 'AWS::Region'
-          #                - Ref: 'AWS::AccountId'
-          #                - 'table/SomeTable/index/*'
           - PolicyName: sqsAccess
             PolicyDocument:
               Version: '2012-10-17'

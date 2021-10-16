@@ -5,13 +5,13 @@ using MTFHDataLanding.Gateway;
 using MTFHDataLanding.Gateway.Interfaces;
 using MTFHDataLanding.UseCase;
 using MTFHDataLanding.UseCase.Interfaces;
-using Hackney.Core.DynamoDb;
 using Hackney.Core.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
@@ -25,6 +25,8 @@ namespace MTFHDataLanding
     [ExcludeFromCodeCoverage]
     public class SqsFunction : BaseFunction
     {
+        private readonly static JsonSerializerOptions _jsonOptions = CreateJsonOptions();
+
         /// <summary>
         /// Default constructor. This constructor is used by Lambda to construct the instance. When invoked in a Lambda environment
         /// the AWS credentials will come from the IAM role associated with the function and the AWS region will be set to the
@@ -33,18 +35,25 @@ namespace MTFHDataLanding
         public SqsFunction()
         { }
 
-        /// <summary>
-        /// Use this method to perform any DI configuration required
-        /// </summary>
-        /// <param name="services"></param>
+        private static JsonSerializerOptions CreateJsonOptions()
+        {
+            var options = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true
+            };
+            options.Converters.Add(new JsonStringEnumConverter());
+            return options;
+        }
+
         protected override void ConfigureServices(IServiceCollection services)
         {
-            services.ConfigureDynamoDB();
-
             services.AddHttpClient();
-            services.AddScoped<IDoSomethingUseCase, DoSomethingUseCase>();
+            services.AddScoped<ILandPersonData, LandPersonData>();
 
-            services.AddScoped<IDbEntityGateway, DynamoDbEntityGateway>();
+            services.AddScoped<IPersonApi, PersonApi>();
+
+            services.AddTransient<IApiGateway, ApiGateway>();
 
             base.ConfigureServices(services);
         }
@@ -86,12 +95,16 @@ namespace MTFHDataLanding
                     IMessageProcessing processor = null;
                     switch (entityEvent.EventType)
                     {
-                        case EventTypes.DoSomethingEvent:
+                        case EventTypes.PersonCreatedEvent:
                             {
-                                processor = ServiceProvider.GetService<IDoSomethingUseCase>();
+                                processor = ServiceProvider.GetService<ILandPersonData>();
                                 break;
                             }
-                        // TODO - Implement other message types here...
+                        case EventTypes.PersonUpdatedEvent:
+                            {
+                                processor = ServiceProvider.GetService<ILandPersonData>();
+                                break;
+                            }
                         default:
                             throw new ArgumentException($"Unknown event type: {entityEvent.EventType} on message id: {message.MessageId}");
                     }
