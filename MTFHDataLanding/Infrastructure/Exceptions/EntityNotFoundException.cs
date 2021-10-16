@@ -2,14 +2,15 @@ using System;
 
 namespace MTFHDataLanding.Infrastructure.Exceptions
 {
-    public class EntityNotFoundException<T> : Exception where T : class
+    public class EntityNotFoundException : Exception
     {
-        public string EntityName => typeof(T).Name;
+        public string EntityName { get; }
         public Guid Id { get; }
 
-        public EntityNotFoundException(Guid id)
-            : base($"{typeof(T).Name} with id {id} not found.")
+        public EntityNotFoundException(string entityName, Guid id)
+            : base($"{entityName} with id {id} not found.")
         {
+            EntityName = entityName;
             Id = id;
         }
     }
