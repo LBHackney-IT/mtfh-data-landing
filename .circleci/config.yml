@@ -106,10 +106,10 @@ jobs:
       - setup_remote_docker
       - run:
           name: build
-          command: docker-compose build base-listener-test
+          command: docker-compose build mtfh-data-landing-test
       - run:
           name: Run tests
-          command: docker-compose run base-listener-test
+          command: docker-compose run mtfh-data-landing-test
   assume-role-development:
     executor: docker-python
     steps:
