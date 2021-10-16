@@ -25,8 +25,6 @@ namespace MTFHDataLanding
     [ExcludeFromCodeCoverage]
     public class SqsFunction : BaseFunction
     {
-        private readonly static JsonSerializerOptions _jsonOptions = CreateJsonOptions();
-
         /// <summary>
         /// Default constructor. This constructor is used by Lambda to construct the instance. When invoked in a Lambda environment
         /// the AWS credentials will come from the IAM role associated with the function and the AWS region will be set to the

@@ -1,6 +1,6 @@
 using System;
 
-namespace TenureListener.Infrastructure.Exceptions
+namespace MTFHDataLanding.Infrastructure.Exceptions
 {
     public class PersonNotFoundException : EntityNotFoundException
     {
