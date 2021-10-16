@@ -49,11 +49,11 @@ namespace MTFHDataLanding.Tests.UseCase
                            .Create();
         }
 
-        private EntityEventSns CreateMessage(Guid id, string eventType = EventTypes.PersonCreatedEvent)
+        private EntityEventSns CreateMessage(string eventType = EventTypes.PersonUpdatedEvent)
         {
             return _fixture.Build<EntityEventSns>()
-                           .With(x => x.EntityId, id)
                            .With(x => x.EventType, eventType)
+                           .With(x => x.CorrelationId, _correlationId)
                            .Create();
         }
 
