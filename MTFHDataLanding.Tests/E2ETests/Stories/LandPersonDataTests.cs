@@ -1,6 +1,7 @@
 using MTFHDataLanding.Tests.E2ETests.Fixtures;
 using MTFHDataLanding.Tests.E2ETests.Steps;
 using System;
+using System.Linq;
 using TestStack.BDDfy;
 using Xunit;
 
@@ -19,7 +20,7 @@ namespace MTFHDataLanding.Tests.E2ETests.Stories
         public LandPersonDataTests()
         {
             _personApiFixture = new PersonApiFixture();
-            _steps = new LandPersonDataUseCaseSteps();
+            _steps = new LandPersonDataSteps();
         }
 
         public void Dispose()

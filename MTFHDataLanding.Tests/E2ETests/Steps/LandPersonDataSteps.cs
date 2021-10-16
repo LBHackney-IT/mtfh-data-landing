@@ -1,12 +1,22 @@
 using Amazon.DynamoDBv2.DataModel;
+using Amazon.Lambda.Core;
 using Amazon.Lambda.SQSEvents;
+using Amazon.Lambda.TestUtilities;
+using Hackney.Shared.Person.Boundary.Response;
+using Hackney.Shared.Person.Domain;
+using MTFHDataLanding.Boundary;
 using MTFHDataLanding.Domain;
 using MTFHDataLanding.Infrastructure;
 using MTFHDataLanding.Infrastructure.Exceptions;
 using FluentAssertions;
+using Moq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AutoFixture;
+using Xunit;
 
 namespace MTFHDataLanding.Tests.E2ETests.Steps
 {

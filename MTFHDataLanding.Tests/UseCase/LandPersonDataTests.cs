@@ -36,7 +36,7 @@ namespace MTFHDataLanding.Tests.UseCase
             _mockLogger = new Mock<ILogger<LandPersonData>>();
             _sut = new LandPersonData(_mockPersonApi.Object, _mockLogger.Object);
 
-            _message = CreateMessage(_domainEntity.Id);
+            _message = CreateMessage();
             _person = CreatePerson(_message.EntityId);
         }
         private PersonResponseObject CreatePerson(Guid entityId)
