@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 
-namespace TenureListener.Infrastructure.Exceptions
+namespace MTFHDataLanding.Infrastructure.Exceptions
 {
     public class GetFromApiException : Exception
     {
