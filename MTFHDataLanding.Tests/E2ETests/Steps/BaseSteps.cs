@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace TenureListener.Tests.E2ETests.Steps
+namespace MTFHDataLanding.Tests.E2ETests.Steps
 {
     public class BaseSteps
     {

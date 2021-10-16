@@ -1,10 +1,12 @@
 using Amazon.DynamoDBv2.DataModel;
+using Amazon.Lambda.SQSEvents;
 using MTFHDataLanding.Domain;
 using MTFHDataLanding.Infrastructure;
 using MTFHDataLanding.Infrastructure.Exceptions;
 using FluentAssertions;
 using System;
 using System.Threading.Tasks;
+using AutoFixture;
 
 namespace MTFHDataLanding.Tests.E2ETests.Steps
 {

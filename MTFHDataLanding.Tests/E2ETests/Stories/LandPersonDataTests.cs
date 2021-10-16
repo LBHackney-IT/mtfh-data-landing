@@ -14,7 +14,7 @@ namespace MTFHDataLanding.Tests.E2ETests.Stories
     {
         private readonly PersonApiFixture _personApiFixture;
 
-        private readonly LandPersonDataUseCaseSteps _steps;
+        private readonly LandPersonDataSteps _steps;
 
         public LandPersonDataTests()
         {
