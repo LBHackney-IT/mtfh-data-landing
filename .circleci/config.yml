@@ -79,13 +79,13 @@ commands:
       - run:
           name: Build lambda
           command: |
-            cd ./BaseListener/
+            cd ./MTFHDataLanding/
             chmod +x ./build.sh
             ./build.sh
       - run:
           name: Deploy lambda
           command: |
-            cd ./BaseListener/
+            cd ./MTFHDataLanding/
             sls deploy --stage <<parameters.stage>> --account <<parameters.aws-account>> --conceal
 
 jobs:
@@ -178,7 +178,6 @@ workflows:
   #          branches:
   #            only: master
       - deploy-to-development:
-         context: api-assume-role-housing-development-context
          requires:
            - terraform-init-and-apply-to-development
   #        filters:
