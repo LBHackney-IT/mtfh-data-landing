@@ -47,6 +47,10 @@ data "aws_ssm_parameter" "person_sns_topic_arn" {
   name = "/sns-topic/development/person/arn"
 }
 
+data "aws_ssm_parameter" "tenure_sns_topic_arn" {
+  name = "/sns-topic/development/tenure/arn"
+}
+
 resource "aws_sqs_queue" "mtfh_data_landing_dead_letter_queue" {
   name                        = "mtfhdatalandingdeadletterqueue.fifo"
   fifo_queue                  = true
@@ -84,7 +88,19 @@ resource "aws_sqs_queue_policy" "mtfh_data_landing_queue_policy" {
           "ArnEquals": {
               "aws:SourceArn": "${data.aws_ssm_parameter.person_sns_topic_arn.value}"
           }
-          }
+          },
+          {
+              "Sid": "Second",
+              "Effect": "Allow",
+              "Principal": "*",
+              "Action": "sqs:SendMessage",
+              "Resource": "${aws_sqs_queue.mtfh_data_landing_queue.arn}",
+              "Condition": {
+              "ArnEquals": {
+                  "aws:SourceArn": "${data.aws_ssm_parameter.tenure_sns_topic_arn.value}"
+              }
+              }
+          },  
       }
       ]
   }
@@ -95,6 +111,13 @@ resource "aws_sns_topic_subscription" "mtfh_data_landing_queue_subscribe_to_pers
   topic_arn = data.aws_ssm_parameter.person_sns_topic_arn.value
   protocol  = "sqs"
   endpoint  = aws_sqs_queue.mtfh_data_landing_queue.arn
+  raw_message_delivery = true
+}
+
+resource "aws_sns_topic_subscription" "person_queue_subscribe_to_tenure_sns" {
+  topic_arn            = data.aws_ssm_parameter.tenure_sns_topic_arn.value
+  protocol             = "sqs"
+  endpoint             = aws_sqs_queue.mtfh_data_landing_queue.arn
   raw_message_delivery = true
 }
 
