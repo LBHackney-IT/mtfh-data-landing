@@ -69,7 +69,7 @@ namespace MTFHDataLanding.UseCase
 
             using (MemoryStream ms = new MemoryStream())
             {
-                using (var writer = new ParquetWriter(schema, ms))
+                using (var parquetWriter = new ParquetWriter(schema, ms))
                 {
                     using (ParquetRowGroupWriter groupWriter = parquetWriter.CreateRowGroup())
                     {
