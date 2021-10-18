@@ -42,9 +42,9 @@ namespace MTFHDataLanding.UseCase
             if (message is null) throw new ArgumentNullException(nameof(message));
 
             // #1 - Get the tenure
-            var tenure = await _tenureInfoApi.GetTenureInfoByIdAsync(message.EntityId, message.CorrelationId)
+            var tenure = await _tenureApi.GetTenureInfoByIdAsync(message.EntityId, message.CorrelationId)
                                              .ConfigureAwait(false);
-            if (tenure is null) throw new EntityNotFoundException<TenureResponseObject>(message.EntityId);
+            if (tenure is null) throw new TenureNotFoundException(message.EntityId);
 
             _logger.LogWarning($"Tenure record (id: {tenure.Id})");
             var id = new DataColumn(new DataField<string>("id"), new string[] { tenure.Id.ToString() });
