@@ -93,7 +93,7 @@ namespace MTFHDataLanding.UseCase
                         groupWriter.WriteColumn(eventType);
                     }
                 }
-                await fileTransferUtility.UploadAsync(ms, bucketName, keyName + message.DateTime.Date.ToString("yyyy/MM/dd/HH\\:mm\\:ss.parquet"));
+                await fileTransferUtility.UploadAsync(ms, bucketName, keyName + message.DateTime.ToString("yyyy/MM/dd/HH\\:mm\\:ss") + ".parquet");
             }
         }
     }
