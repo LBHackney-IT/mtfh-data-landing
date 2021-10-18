@@ -12,7 +12,6 @@ using Parquet.Data;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Data;
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Transfer;
@@ -49,9 +48,9 @@ namespace MTFHDataLanding.UseCase
             if (person is null) throw new PersonNotFoundException(message.EntityId);
 
             _logger.LogWarning($"Person record (id: {person.Id}): " + person);
-            var id = new DataColumn(new DataField<string>("id"), new string[] { person.Id });
-            var title = new DataColumn(new DataField<string>("title"), new string[] { person.Title });
-            var preferredTitle = new DataColumn(new DataField<string>("preferredTitle"), new string[] { person.PreferredTitle });
+            var id = new DataColumn(new DataField<string>("id"), new string[] { person.Id.ToString() });
+            var title = new DataColumn(new DataField<string>("title"), new string[] { person.Title.ToString() });
+            var preferredTitle = new DataColumn(new DataField<string>("preferredTitle"), new string[] { person.PreferredTitle.ToString() });
             var preferredFirstName = new DataColumn(new DataField<string>("preferredFirstName"), new string[] { person.PreferredFirstName });
             var preferredMiddleName = new DataColumn(new DataField<string>("preferredMiddleName"), new string[] { person.PreferredMiddleName });
             var preferredSurname = new DataColumn(new DataField<string>("preferredSurname"), new string[] { person.PreferredSurname });
@@ -61,7 +60,7 @@ namespace MTFHDataLanding.UseCase
             var placeOfBirth = new DataColumn(new DataField<string>("placeOfBirth"), new string[] { person.PlaceOfBirth });
             var dateOfBirth = new DataColumn(new DataField<string>("dateOfBirth"), new string[] { person.DateOfBirth });
             var reason = new DataColumn(new DataField<string>("reason"), new string[] { person.Reason });
-            var dateTime = new DataColumn(new DataField<string>("dateTime"), new string[] { message.DateTime });
+            var dateTime = new DataColumn(new DataField<string>("dateTime"), new string[] { message.DateTime.ToString() });
 
             var schema = new Schema(id.Field, title.Field, preferredTitle.Field, preferredFirstName.Field, preferredMiddleName.Field,
             preferredSurname.Field, firstName.Field, middleName.Field, surname.Field, placeOfBirth.Field, dateOfBirth.Field, reason.Field,
@@ -88,7 +87,7 @@ namespace MTFHDataLanding.UseCase
                         groupWriter.WriteColumn(dateTime);
                     }
                 }
-                await fileTransferUtility.UploadAsync(ms, bucketName, keyName + message.DateTime);
+                await fileTransferUtility.UploadAsync(ms, bucketName, keyName + message.DateTime.ToString());
             }
         }
     }
