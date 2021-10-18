@@ -48,8 +48,10 @@ namespace MTFHDataLanding
         {
             services.AddHttpClient();
             services.AddScoped<ILandPersonData, LandPersonData>();
+            services.AddScoped<ILandTenureData, LandTenureData>();
 
             services.AddScoped<IPersonApi, PersonApi>();
+            services.AddScoped<ITenureInfoApi, TenureInfoApi>();
 
             services.AddTransient<IApiGateway, ApiGateway>();
 
