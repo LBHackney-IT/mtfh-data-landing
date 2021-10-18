@@ -26,7 +26,5 @@ namespace MTFHDataLanding.Boundary
         public User User { get; set; }
 
         public Guid EntityId { get; set; }
-
-        public EventData EventData { get; set; } = new EventData();
     }
 }

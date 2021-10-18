@@ -47,7 +47,7 @@ namespace MTFHDataLanding.UseCase
                                          .ConfigureAwait(false);
             if (person is null) throw new PersonNotFoundException(message.EntityId);
 
-            _logger.LogWarning($"Person record (id: {person.Id}): " + person);
+            _logger.LogWarning($"Person record (id: {person.Id}): ");
             var id = new DataColumn(new DataField<string>("id"), new string[] { person.Id.ToString() });
             var title = new DataColumn(new DataField<string>("title"), new string[] { person.Title.ToString() });
             var preferredTitle = new DataColumn(new DataField<string>("preferredTitle"), new string[] { person.PreferredTitle.ToString() });
@@ -93,7 +93,11 @@ namespace MTFHDataLanding.UseCase
                         groupWriter.WriteColumn(eventType);
                     }
                 }
-                await fileTransferUtility.UploadAsync(ms, bucketName, keyName + message.DateTime.ToString("yyyy/MM/dd/HH\\:mm\\:ss") + ".parquet");
+                string year = message.DateTime.ToString("yyyy");
+                string month = message.DateTime.ToString("MM");
+                string day = message.DateTime.ToString("dd");
+                await fileTransferUtility.UploadAsync(ms, bucketName, keyName + "year=" + year + "/month=" + month + "/day=" + day + "/" +
+                message.DateTime.ToString("HH\\:mm\\:ss.fffffff") + ".parquet");
             }
         }
     }
