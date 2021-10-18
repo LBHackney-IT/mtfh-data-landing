@@ -34,7 +34,7 @@ namespace MTFHDataLanding.UseCase
         public async Task ProcessMessageAsync(EntityEventSns message)
         {
             String bucketName = "mtfh-data-landing-spike";
-            String keyName = "landing/persons/";
+            String keyName = "landing/mtfh/persons/";
             RegionEndpoint bucketRegion = RegionEndpoint.EUWest2;
 
             IAmazonS3 s3Client = new AmazonS3Client(bucketRegion);
@@ -60,11 +60,13 @@ namespace MTFHDataLanding.UseCase
             var placeOfBirth = new DataColumn(new DataField<string>("placeOfBirth"), new string[] { person.PlaceOfBirth });
             var dateOfBirth = new DataColumn(new DataField<string>("dateOfBirth"), new string[] { person.DateOfBirth });
             var reason = new DataColumn(new DataField<string>("reason"), new string[] { person.Reason });
-            var dateTime = new DataColumn(new DataField<string>("dateTime"), new string[] { message.DateTime.ToString() });
+            var dateTime = new DataColumn(new DataField<string>("dateTime"), new string[] { message.DateTime.ToString("o") });
+            var userName = new DataColumn(new DataField<string>("userName"), new string[] { message.User.Name });
+            var userEmail = new DataColumn(new DataField<string>("userEmail"), new string[] { message.User.Email });
 
             var schema = new Schema(id.Field, title.Field, preferredTitle.Field, preferredFirstName.Field, preferredMiddleName.Field,
             preferredSurname.Field, firstName.Field, middleName.Field, surname.Field, placeOfBirth.Field, dateOfBirth.Field, reason.Field,
-            dateTime.Field);
+            dateTime.Field, userName.Field, userEmail.Field);
 
             using (MemoryStream ms = new MemoryStream())
             {
@@ -85,9 +87,11 @@ namespace MTFHDataLanding.UseCase
                         groupWriter.WriteColumn(dateOfBirth);
                         groupWriter.WriteColumn(reason);
                         groupWriter.WriteColumn(dateTime);
+                        groupWriter.WriteColumn(userName);
+                        groupWriter.WriteColumn(userEmail);
                     }
                 }
-                await fileTransferUtility.UploadAsync(ms, bucketName, keyName + message.DateTime.ToString());
+                await fileTransferUtility.UploadAsync(ms, bucketName, keyName + message.DateTime.Date.ToString("yyyy/MM/dd/HH\\:mm\\:ss.parquet"));
             }
         }
     }
