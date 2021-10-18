@@ -61,8 +61,8 @@ namespace MTFHDataLanding.UseCase
                     );
             ds.Add(person.Id, person.Title, person.PreferredTitle, person.PreferredFirstName, person.PreferredMiddleName, person.PreferredSurname,
                    person.FirstName, person.MiddleName, person.Surname, person.PlaceOfBirth, person.DateOfBirth, person.Reason, message.DateTime);
-            
-            using(MemoryStream ms = new MemoryStream())
+
+            using (MemoryStream ms = new MemoryStream())
             {
                 using (var writer = new ParquetWriter(ms))
                 {
