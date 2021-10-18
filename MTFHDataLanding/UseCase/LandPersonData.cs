@@ -63,10 +63,11 @@ namespace MTFHDataLanding.UseCase
             var dateTime = new DataColumn(new DataField<string>("dateTime"), new string[] { message.DateTime.ToString("o") });
             var userName = new DataColumn(new DataField<string>("userName"), new string[] { message.User.Name });
             var userEmail = new DataColumn(new DataField<string>("userEmail"), new string[] { message.User.Email });
+            var eventType = new DataColumn(new DataField<string>("eventType"), new string[] { message.EventType });
 
             var schema = new Schema(id.Field, title.Field, preferredTitle.Field, preferredFirstName.Field, preferredMiddleName.Field,
             preferredSurname.Field, firstName.Field, middleName.Field, surname.Field, placeOfBirth.Field, dateOfBirth.Field, reason.Field,
-            dateTime.Field, userName.Field, userEmail.Field);
+            dateTime.Field, userName.Field, userEmail.Field, eventType.Field);
 
             using (MemoryStream ms = new MemoryStream())
             {
@@ -89,6 +90,7 @@ namespace MTFHDataLanding.UseCase
                         groupWriter.WriteColumn(dateTime);
                         groupWriter.WriteColumn(userName);
                         groupWriter.WriteColumn(userEmail);
+                        groupWriter.WriteColumn(eventType);
                     }
                 }
                 await fileTransferUtility.UploadAsync(ms, bucketName, keyName + message.DateTime.Date.ToString("yyyy/MM/dd/HH\\:mm\\:ss.parquet"));
