@@ -103,6 +103,16 @@ namespace MTFHDataLanding
                                 processor = ServiceProvider.GetService<ILandPersonData>();
                                 break;
                             }
+                        case EventTypes.TenureCreatedEvent:
+                            {
+                                processor = ServiceProvider.GetService<ILandTenureData>();
+                                break;
+                            }
+                        case EventTypes.TenureUpdatedEvent:
+                            {
+                                processor = ServiceProvider.GetService<ILandTenureData>();
+                                break;
+                            }
                         default:
                             throw new ArgumentException($"Unknown event type: {entityEvent.EventType} on message id: {message.MessageId}");
                     }

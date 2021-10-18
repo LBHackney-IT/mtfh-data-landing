@@ -22,6 +22,8 @@ functions:
     environment:
       PersonApiUrl: ${ssm:/housing-tl/${self:provider.stage}/person-api-url}
       PersonApiToken: ${ssm:/housing-tl/${self:provider.stage}/person-api-token}
+      TenureApiUrl: ${ssm:/housing-tl/${self:provider.stage}/tenure-api-url}
+      TenureApiToken: ${ssm:/housing-tl/${self:provider.stage}/tenure-api-token}
     events:
       - sqs: ${ssm:/sqs-queue/${self:provider.stage}/mtfh_data_landing/arn}
       
