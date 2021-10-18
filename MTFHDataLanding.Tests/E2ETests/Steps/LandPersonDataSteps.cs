@@ -5,7 +5,6 @@ using Amazon.Lambda.TestUtilities;
 using Hackney.Shared.Person.Boundary.Response;
 using Hackney.Shared.Person.Domain;
 using MTFHDataLanding.Boundary;
-using MTFHDataLanding.Domain;
 using MTFHDataLanding.Infrastructure;
 using MTFHDataLanding.Infrastructure.Exceptions;
 using FluentAssertions;
