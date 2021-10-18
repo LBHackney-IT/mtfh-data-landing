@@ -113,7 +113,9 @@ resources:
                     - "s3:ListBucketMultipartUploads"
                     - "s3:GetObjectTorrent"
                     - "s3:GetObjectVersionAcl"
-                  Resource: "arn:aws:s3:::mtfh-data-landing-spike"
+                  Resource:
+                    - "arn:aws:s3:::mtfh-data-landing-spike"
+                    - "arn:aws:s3:::mtfh-data-landing-spike/*"
 
 custom:
   vpc:
