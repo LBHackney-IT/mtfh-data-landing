@@ -85,22 +85,22 @@ resource "aws_sqs_queue_policy" "mtfh_data_landing_queue_policy" {
           "Action": "sqs:SendMessage",
           "Resource": "${aws_sqs_queue.mtfh_data_landing_queue.arn}",
           "Condition": {
-          "ArnEquals": {
-              "aws:SourceArn": "${data.aws_ssm_parameter.person_sns_topic_arn.value}"
+            "ArnEquals": {
+                "aws:SourceArn": "${data.aws_ssm_parameter.person_sns_topic_arn.value}"
+            }
           }
-          },
-          {
-              "Sid": "Second",
-              "Effect": "Allow",
-              "Principal": "*",
-              "Action": "sqs:SendMessage",
-              "Resource": "${aws_sqs_queue.mtfh_data_landing_queue.arn}",
-              "Condition": {
-              "ArnEquals": {
-                  "aws:SourceArn": "${data.aws_ssm_parameter.tenure_sns_topic_arn.value}"
-              }
-              }
-          },  
+      },
+      {
+          "Sid": "Second",
+          "Effect": "Allow",
+          "Principal": "*",
+          "Action": "sqs:SendMessage",
+          "Resource": "${aws_sqs_queue.mtfh_data_landing_queue.arn}",
+          "Condition": {
+            "ArnEquals": {
+                "aws:SourceArn": "${data.aws_ssm_parameter.tenure_sns_topic_arn.value}"
+            }
+          }
       }
       ]
   }
