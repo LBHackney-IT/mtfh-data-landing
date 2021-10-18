@@ -7,6 +7,14 @@ using MTFHDataLanding.UseCase.Interfaces;
 using Hackney.Core.Logging;
 using System;
 using System.Threading.Tasks;
+using Parquet;
+using Parquet.Data;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Amazon;
+using Amazon.S3;
+using Amazon.S3.Transfer;
 
 namespace MTFHDataLanding.UseCase
 {
@@ -25,6 +33,9 @@ namespace MTFHDataLanding.UseCase
         [LogCall]
         public async Task ProcessMessageAsync(EntityEventSns message)
         {
+            bucketName = "mtfh-data-landing-spike";
+            keyName = "landing/persons/";
+
             if (message is null) throw new ArgumentNullException(nameof(message));
 
             // 1. Get Person from Person service API
@@ -33,6 +44,33 @@ namespace MTFHDataLanding.UseCase
             if (person is null) throw new PersonNotFoundException(message.EntityId);
 
             _logger.LogWarning($"Person record (id: {person.Id}): " + person);
+            var ds = new DataSet(
+                        new DataField<string>("id"),
+                        new DataField<string>("title"),
+                        new DataField<string>("preferredTitle"),
+                        new DataField<string>("preferredFirstName"),
+                        new DataField<string>("preferredMiddleName"),
+                        new DataField<string>("preferredSurname"),
+                        new DataField<string>("firstName"),
+                        new DataField<string>("middleName"),
+                        new DataField<string>("surname"),
+                        new DataField<string>("placeOfBirth"),
+                        new DataField<string>("dateOfBirth"),
+                        new DataField<string>("reason"),
+                        new DataField<string>("dateTime")
+                    );
+            ds.Add(person.Id, person.Title, person.PreferredTitle, person.PreferredFirstName, person.PreferredMiddleName, person.PreferredSurname,
+                   person.FirstName, person.MiddleName, person.Surname, person.PlaceOfBirth, person.DateOfBirth, person.Reason, message.DateTime);
+            
+            using(MemoryStream ms = new MemoryStream())
+            {
+                using (var writer = new ParquetWriter(ms))
+                {
+                    writer.Write(ds);
+                    writer.Flush();
+                }
+                await fileTransferUtility.UploadAsync(ms, bucketName, keyName + message.DateTime);
+            }
         }
     }
 }

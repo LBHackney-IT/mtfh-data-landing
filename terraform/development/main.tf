@@ -38,6 +38,11 @@ terraform {
   }
 }
 
+resource "aws_s3_bucket" "bucket_landing_data" {
+  bucket = "mtfh-data-landing-spike"
+  acl    = "private"
+}
+
 data "aws_ssm_parameter" "person_sns_topic_arn" {
   name = "/sns-topic/development/person/arn"
 }
