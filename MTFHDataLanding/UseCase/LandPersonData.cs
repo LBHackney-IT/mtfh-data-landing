@@ -49,29 +49,44 @@ namespace MTFHDataLanding.UseCase
             if (person is null) throw new PersonNotFoundException(message.EntityId);
 
             _logger.LogWarning($"Person record (id: {person.Id}): " + person);
-            var ds = new DataSet(
-                        new DataField<string>("id"),
-                        new DataField<string>("title"),
-                        new DataField<string>("preferredTitle"),
-                        new DataField<string>("preferredFirstName"),
-                        new DataField<string>("preferredMiddleName"),
-                        new DataField<string>("preferredSurname"),
-                        new DataField<string>("firstName"),
-                        new DataField<string>("middleName"),
-                        new DataField<string>("surname"),
-                        new DataField<string>("placeOfBirth"),
-                        new DataField<string>("dateOfBirth"),
-                        new DataField<string>("reason"),
-                        new DataField<string>("dateTime")
-                    );
-            ds.Add(person.Id, person.Title, person.PreferredTitle, person.PreferredFirstName, person.PreferredMiddleName, person.PreferredSurname,
-                   person.FirstName, person.MiddleName, person.Surname, person.PlaceOfBirth, person.DateOfBirth, person.Reason, message.DateTime);
+            var id = new DataColumn(new DataField<string>("id"), new string[] { person.Id });
+            var title = new DataColumn(new DataField<string>("title"), new string[] { person.Title });
+            var preferredTitle = new DataColumn(new DataField<string>("preferredTitle"), new string[] { person.PreferredTitle });
+            var preferredFirstName = new DataColumn(new DataField<string>("preferredFirstName"), new string[] { person.PreferredFirstName });
+            var preferredMiddleName = new DataColumn(new DataField<string>("preferredMiddleName"), new string[] { person.PreferredMiddleName });
+            var preferredSurname = new DataColumn(new DataField<string>("preferredSurname"), new string[] { person.PreferredSurname });
+            var firstName = new DataColumn(new DataField<string>("firstName"), new string[] { person.FirstName });
+            var middleName = new DataColumn(new DataField<string>("middleName"), new string[] { person.MiddleName });
+            var surname = new DataColumn(new DataField<string>("surname"), new string[] { person.Surname });
+            var placeOfBirth = new DataColumn(new DataField<string>("placeOfBirth"), new string[] { person.PlaceOfBirth });
+            var dateOfBirth = new DataColumn(new DataField<string>("dateOfBirth"), new string[] { person.DateOfBirth });
+            var reason = new DataColumn(new DataField<string>("reason"), new string[] { person.Reason });
+            var dateTime = new DataColumn(new DataField<string>("dateTime"), new string[] { message.DateTime });
+
+            var schema = new Schema(id.Field, title.Field, preferredTitle.Field, preferredFirstName.Field, preferredMiddleName.Field,
+            preferredSurname.Field, firstName.Field, middleName.Field, surname.Field, placeOfBirth.Field, dateOfBirth.Field, reason.Field,
+            dateTime.Field);
 
             using (MemoryStream ms = new MemoryStream())
             {
-                using (var writer = new ParquetWriter(ds.GetXmlSchema(), ms))
+                using (var writer = new ParquetWriter(schema, ms))
                 {
-                    writer.Write(ds);
+                    using (ParquetRowGroupWriter groupWriter = parquetWriter.CreateRowGroup())
+                    {
+                        groupWriter.WriteColumn(id);
+                        groupWriter.WriteColumn(title);
+                        groupWriter.WriteColumn(preferredTitle);
+                        groupWriter.WriteColumn(preferredFirstName);
+                        groupWriter.WriteColumn(preferredMiddleName);
+                        groupWriter.WriteColumn(preferredSurname);
+                        groupWriter.WriteColumn(firstName);
+                        groupWriter.WriteColumn(middleName);
+                        groupWriter.WriteColumn(surname);
+                        groupWriter.WriteColumn(placeOfBirth);
+                        groupWriter.WriteColumn(dateOfBirth);
+                        groupWriter.WriteColumn(reason);
+                        groupWriter.WriteColumn(dateTime);
+                    }
                 }
                 await fileTransferUtility.UploadAsync(ms, bucketName, keyName + message.DateTime);
             }
