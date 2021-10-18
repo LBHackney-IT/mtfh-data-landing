@@ -12,6 +12,7 @@ using Parquet.Data;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Data;
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Transfer;
@@ -33,8 +34,12 @@ namespace MTFHDataLanding.UseCase
         [LogCall]
         public async Task ProcessMessageAsync(EntityEventSns message)
         {
-            bucketName = "mtfh-data-landing-spike";
-            keyName = "landing/persons/";
+            String bucketName = "mtfh-data-landing-spike";
+            String keyName = "landing/persons/";
+            RegionEndpoint bucketRegion = RegionEndpoint.EUWest2;
+
+            IAmazonS3 s3Client = new AmazonS3Client(bucketRegion);
+            var fileTransferUtility = new TransferUtility(s3Client);
 
             if (message is null) throw new ArgumentNullException(nameof(message));
 
@@ -64,10 +69,9 @@ namespace MTFHDataLanding.UseCase
 
             using (MemoryStream ms = new MemoryStream())
             {
-                using (var writer = new ParquetWriter(ms))
+                using (var writer = new ParquetWriter(ds.GetXmlSchema(), ms))
                 {
                     writer.Write(ds);
-                    writer.Flush();
                 }
                 await fileTransferUtility.UploadAsync(ms, bucketName, keyName + message.DateTime);
             }
