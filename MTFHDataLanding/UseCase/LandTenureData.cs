@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Logging;
 using MTFHDataLanding.Boundary;
-using MTFHDataLanding.Domain;
 using MTFHDataLanding.Gateway.Interfaces;
 using MTFHDataLanding.Infrastructure.Exceptions;
 using MTFHDataLanding.UseCase.Interfaces;

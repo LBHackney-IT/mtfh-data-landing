@@ -14,7 +14,7 @@ namespace MTFHDataLanding.Gateway
 
         private readonly IApiGateway _apiGateway;
 
-        public TenureInfoApiGateway(IApiGateway apiGateway)
+        public TenureInfoApi(IApiGateway apiGateway)
         {
             _apiGateway = apiGateway;
             _apiGateway.Initialise(ApiName, TenureApiUrl, TenureApiToken);
