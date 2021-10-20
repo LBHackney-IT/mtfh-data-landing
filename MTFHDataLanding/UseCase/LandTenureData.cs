@@ -62,11 +62,11 @@ namespace MTFHDataLanding.UseCase
                     intTenureHouseholdMembers[index] = 1;
                 }
                 householdMembersIdList[index] = (householdMember.Id != null ? householdMember.Id.ToString() : "");
-                householdMembersTypeList[index] = (householdMember.Type != null ? householdMember.Type.ToString() : "");
+                householdMembersTypeList[index] = householdMember.Type.ToString();
                 householdMembersFullNameList[index] = (householdMember.FullName != null ? householdMember.FullName.ToString() : "");
-                householdMembersIsResponsibleList[index] = (householdMember.IsResponsible != null ? householdMember.IsResponsible.ToString() : "");
+                householdMembersIsResponsibleList[index] = householdMember.IsResponsible;
                 householdMembersDateOfBirthList[index] = (householdMember.DateOfBirth != null ? householdMember.DateOfBirth.ToString() : "");
-                householdMembersPersonTenureTypeList[index] = (householdMember.PersonTenureType != null ? householdMember.PersonTenureType.ToString() : "");
+                householdMembersPersonTenureTypeList[index] = householdMember.PersonTenureType.ToString();
                 index++;
             }
 
@@ -74,9 +74,9 @@ namespace MTFHDataLanding.UseCase
             var noticesTypeList = new string[tenure.Notices.Count()];
             var noticesServedDateList = new string[tenure.Notices.Count()];
             var noticesExpiryDateList = new string[tenure.Notices.Count()];
-            var noticesEndDateList = new bool[tenure.Notices.Count()];
+            var noticesEndDateList = new string[tenure.Notices.Count()];
             var noticesEffectiveDateList = new string[tenure.Notices.Count()];
-            int index = 0;
+            index = 0;
             foreach (var notice in tenure.Notices)
             {
                 if (index != 0)
@@ -94,7 +94,7 @@ namespace MTFHDataLanding.UseCase
             var intLegacyReferences = new int[tenure.LegacyReferences.Count()];
             var legacyReferencesNameList = new string[tenure.LegacyReferences.Count()];
             var legacyReferencesValueList = new string[tenure.LegacyReferences.Count()];
-            int index = 0;
+            index = 0;
             foreach (var legacyReference in tenure.LegacyReferences)
             {
                 if (index != 0)
@@ -119,7 +119,6 @@ namespace MTFHDataLanding.UseCase
             var tenuredAssetId = new DataColumn(new DataField<string>("id"), new string[] { tenure.TenuredAsset.Id.ToString() });
             var tenuredAssetType = new DataColumn(new DataField<string>("type"), new string[] { tenure.TenuredAsset.Type.ToString() });
             var tenuredAssetFullAddress = new DataColumn(new DataField<string>("fullAddress"), new string[] { tenure.TenuredAsset.FullAddress });
-            var tenuredAssetPropertyReference = new DataColumn(new DataField<string>("propertyReference"), new string[] { tenure.TenuredAsset.PropertyReference });
             var tenuredAssetUprn = new DataColumn(new DataField<string>("uprn"), new string[] { tenure.TenuredAsset.Uprn });
 
             var chargesRent = new DataColumn(new DataField<float>("rent"), new float[] { tenure.Charges.Rent });
@@ -139,9 +138,9 @@ namespace MTFHDataLanding.UseCase
             var tenureTypeCode = new DataColumn(new DataField<string>("code"), new string[] { tenure.TenureType.Code });
             var tenureTypeDescription = new DataColumn(new DataField<string>("description"), new string[] { tenure.TenureType.Description });
 
-            var isTenanted = new DataColumn(new DataField<string>("isTenanted"), new bool[] { tenure.IsTenanted });
+            var isTenanted = new DataColumn(new DataField<bool>("isTenanted"), new bool[] { (bool) tenure.IsTenanted });
 
-            var terminatedIsTerminated = new DataColumn(new DataField<string>("isTerminated"), new string[] { tenure.Terminated.IsTerminated });
+            var terminatedIsTerminated = new DataColumn(new DataField<bool>("isTerminated"), new bool[] { tenure.Terminated.IsTerminated });
             var terminatedReasonForTermination = new DataColumn(new DataField<string>("reasonForTermination"), new string[] { tenure.Terminated.ReasonForTermination });
 
             var successionDate = new DataColumn(new DataField<string>("successionDate"), new string[] { tenure.SuccessionDate.ToString() });
@@ -151,16 +150,16 @@ namespace MTFHDataLanding.UseCase
             var noticesType = new DataColumn(new DataField<string>("type"), noticesTypeList, intNotices);
             var noticesServedDate = new DataColumn(new DataField<string>("servedDate"), noticesServedDateList, intNotices);
             var noticesExpiryDate = new DataColumn(new DataField<string>("expiryDate"), noticesExpiryDateList, intNotices);
-            var noticesEndDate = new DataColumn(new DataField<bool>("endDate"), noticesEndDateList, intNotices);
+            var noticesEndDate = new DataColumn(new DataField<string>("endDate"), noticesEndDateList, intNotices);
             var noticesEffectiveDate = new DataColumn(new DataField<string>("effectiveDate"), noticesEffectiveDateList, intNotices);
 
             var legacyReferencesName = new DataColumn(new DataField<bool>("name"), legacyReferencesNameList, intNotices);
             var legacyReferencesValue = new DataColumn(new DataField<string>("value"), legacyReferencesValueList, intNotices);
 
-            var isMutualExchange = new DataColumn(new DataField<bool>("isMutualExchange"), new bool[] { tenure.IsMutualExchange });
-            var informHousingBenefitsForChanges = new DataColumn(new DataField<bool>("informHousingBenefitsForChanges"), new bool[] { tenure.InformHousingBenefitsForChanges });
-            var isSublet = new DataColumn(new DataField<bool>("isSublet"), new bool[] { tenure.IsSublet });
-            var subletEndDate = new DataColumn(new DataField<string>("subletEndDate"), new string[] { tenure.subletEndDate.ToString() });
+            var isMutualExchange = new DataColumn(new DataField<bool>("isMutualExchange"), new bool[] { (bool) tenure.IsMutualExchange });
+            var informHousingBenefitsForChanges = new DataColumn(new DataField<bool>("informHousingBenefitsForChanges"), new bool[] { (bool) tenure.InformHousingBenefitsForChanges });
+            var isSublet = new DataColumn(new DataField<bool>("isSublet"), new bool[] { (bool) tenure.IsSublet });
+            var subletEndDate = new DataColumn(new DataField<string>("subletEndDate"), new string[] { tenure.SubletEndDate.ToString() });
 
             var dateTime = new DataColumn(new DataField<string>("dateTime"), new string[] { message.DateTime.ToString("o") });
             var userName = new DataColumn(new DataField<string>("userName"), new string[] { message.User.Name });
@@ -169,9 +168,8 @@ namespace MTFHDataLanding.UseCase
 
             var schema = new Schema(id.Field, paymentReference.Field,
             new ListField("householdMembers", new StructField("element", householdMembersId.Field, householdMembersType.Field,
-            householdMembersFullName.Field, householdMembersIsResponsible.Field, householdMembersDateOfBirth.Field, householdMembersPersonTenureType.field)),
-            new StructField("tenuredAsset", tenuredAssetId.Field, tenuredAssetType.Field, tenuredAssetFullAddress.Field, tenuredAssetPropertyReference.Field,
-            tenuredAssetUprn.Field),
+            householdMembersFullName.Field, householdMembersIsResponsible.Field, householdMembersDateOfBirth.Field, householdMembersPersonTenureType.Field)),
+            new StructField("tenuredAsset", tenuredAssetId.Field, tenuredAssetType.Field, tenuredAssetFullAddress.Field, tenuredAssetUprn.Field),
             new StructField("charges", chargesRent.Field, chargesCurrentBalance.Field, chargesBillingFrequency.Field, chargesServiceCharge.Field,
             chargesOtherCharges.Field, chargesCombinedServiceCharges.Field, chargesCombinedRentCharges.Field, chargesTenancyInsuranceCharge.Field,
             chargesOriginalRentCharge.Field, chargesOriginalServiceCharge.Field),
@@ -202,7 +200,6 @@ namespace MTFHDataLanding.UseCase
                         groupWriter.WriteColumn(tenuredAssetId);
                         groupWriter.WriteColumn(tenuredAssetType);
                         groupWriter.WriteColumn(tenuredAssetFullAddress);
-                        groupWriter.WriteColumn(tenuredAssetPropertyReference);
                         groupWriter.WriteColumn(tenuredAssetUprn);
                         groupWriter.WriteColumn(chargesRent);
                         groupWriter.WriteColumn(chargesCurrentBalance);
