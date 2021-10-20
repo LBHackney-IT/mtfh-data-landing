@@ -107,7 +107,7 @@ namespace MTFHDataLanding.UseCase
             }
 
             var id = new DataColumn(new DataField<string>("id"), new string[] { tenure.Id.ToString() });
-            var paymentReference = new DataColumn(new DataField<string>("paymentReference"), new string[] { 
+            var paymentReference = new DataColumn(new DataField<string>("paymentReference"), new string[] {
                 tenure.PaymentReference != null ? tenure.PaymentReference : "" });
 
             var householdMembersId = new DataColumn(new DataField<string>("id"), householdMembersIdList, intTenureHouseholdMembers);
@@ -134,7 +134,7 @@ namespace MTFHDataLanding.UseCase
             // var chargesOriginalServiceCharge = new DataColumn(new DataField<float>("originalServiceCharge"), new float[] { tenure.Charges.OriginalServiceCharge });
 
             var startOfTenureDate = new DataColumn(new DataField<string>("startOfTenureDate"), new string[] { tenure.StartOfTenureDate.ToString() });
-            var endOfTenureDate = new DataColumn(new DataField<string>("endOfTenureDate"), new string[] { 
+            var endOfTenureDate = new DataColumn(new DataField<string>("endOfTenureDate"), new string[] {
                 tenure.EndOfTenureDate != null ? tenure.EndOfTenureDate.ToString() : "" });
 
             var tenureTypeCode = new DataColumn(new DataField<string>("code"), new string[] { tenure.TenureType.Code });
