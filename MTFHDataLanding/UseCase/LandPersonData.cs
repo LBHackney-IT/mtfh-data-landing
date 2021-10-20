@@ -72,8 +72,8 @@ namespace MTFHDataLanding.UseCase
             var eventType = new DataColumn(new DataField<string>("eventType"), new string[] { message.EventType });
 
             var schema = new Schema(id.Field, title.Field, preferredTitle.Field, preferredFirstName.Field, preferredMiddleName.Field,
-            preferredSurname.Field, firstName.Field, middleName.Field, surname.Field, placeOfBirth.Field, dateOfBirth.Field, reason.Field,
-            dateTime.Field, new StructField("user", userName.Field, userEmail.Field), eventType.Field);
+            preferredSurname.Field, firstName.Field, middleName.Field, surname.Field, placeOfBirth.Field, dateOfBirth.Field, personTypes.Field,
+            reason.Field, dateTime.Field, new StructField("user", userName.Field, userEmail.Field), eventType.Field);
 
             using (MemoryStream ms = new MemoryStream())
             {
@@ -92,6 +92,7 @@ namespace MTFHDataLanding.UseCase
                         groupWriter.WriteColumn(surname);
                         groupWriter.WriteColumn(placeOfBirth);
                         groupWriter.WriteColumn(dateOfBirth);
+                        groupWriter.WriteColumn(personTypes);
                         groupWriter.WriteColumn(reason);
                         groupWriter.WriteColumn(dateTime);
                         groupWriter.WriteColumn(userName);
