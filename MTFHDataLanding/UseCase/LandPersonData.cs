@@ -52,6 +52,7 @@ namespace MTFHDataLanding.UseCase
             {
                 intsPersonTypes[i] = 1;
             }
+            var newPersonTypes = person.PersonTypes.ToArray().Select(t => t.ToString()).ToArray();
 
             var id = new DataColumn(new DataField<string>("id"), new string[] { person.Id.ToString() });
             var title = new DataColumn(new DataField<string>("title"), new string[] { person.Title.ToString() });
@@ -64,7 +65,7 @@ namespace MTFHDataLanding.UseCase
             var surname = new DataColumn(new DataField<string>("surname"), new string[] { person.Surname });
             var placeOfBirth = new DataColumn(new DataField<string>("placeOfBirth"), new string[] { person.PlaceOfBirth });
             var dateOfBirth = new DataColumn(new DataField<string>("dateOfBirth"), new string[] { person.DateOfBirth });
-            var personTypes = new DataColumn(new DataField<IEnumerable<string>>("personTypes"), person.PersonTypes.ToArray(), intsPersonTypes);
+            var personTypes = new DataColumn(new DataField<IEnumerable<string>>("personTypes"), newPersonTypes, intsPersonTypes);
             var reason = new DataColumn(new DataField<string>("reason"), new string[] { person.Reason });
             var dateTime = new DataColumn(new DataField<string>("dateTime"), new string[] { message.DateTime.ToString("o") });
             var userName = new DataColumn(new DataField<string>("userName"), new string[] { message.User.Name });
