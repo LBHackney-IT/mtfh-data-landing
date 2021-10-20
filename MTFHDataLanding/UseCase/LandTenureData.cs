@@ -62,7 +62,7 @@ namespace MTFHDataLanding.UseCase
                     intTenureHouseholdMembers[index] = 1;
                 }
                 householdMembersIdList[index] = (householdMember.Id != null ? householdMember.Id.ToString() : "");
-                householdMembersTypeList[index] = (householdMember.Type != null ? householdMember.Type.ToString() : "");
+                householdMembersTypeList[index] = householdMember.Type.ToString();
                 householdMembersFullNameList[index] = (householdMember.FullName != null ? householdMember.FullName.ToString() : "");
                 householdMembersIsResponsibleList[index] = householdMember.IsResponsible;
                 householdMembersDateOfBirthList[index] = (householdMember.DateOfBirth != null ? householdMember.DateOfBirth.ToString() : "");
