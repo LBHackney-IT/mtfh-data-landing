@@ -71,15 +71,15 @@ namespace MTFHDataLanding.UseCase
                 {
                     intTenures[index] = 1;
                 }
-                tenureIdList[index] = (tenure.Id ? tenure.Id.ToString() : null);
-                tenureTypeList[index] = (tenure.Type ? tenure.Type.ToString() : null); ;
-                tenureStartDateList[index] = (tenure.StartDate ? tenure.StartDate.ToString() : null); ;
-                tenureEndDateList[index] = (tenure.EndDate ? tenure.EndDate.ToString() : null); ;
-                tenureAssetFullAddressList[index] = (tenure.AssetFullAddress ? tenure.AssetFullAddress.ToString() : null); ;
-                tenureAssetIdList[index] = (tenure.AssetId ? tenure.AssetId.ToString() : null); ;
-                tenureUprnList[index] = (tenure.Uprn ? tenure.Uprn.ToString() : null); ;
-                tenurePaymentReferenceList[index] = (tenure.PaymentReference ? tenure.PaymentReference.ToString() : null); ;
-                tenurePropertyReferenceList[index] = (tenure.PropertyReference ? tenure.PropertyReference.ToString() : null); ;
+                tenureIdList[index] = (tenure.Id != null ? tenure.Id.ToString() : null);
+                tenureTypeList[index] = (tenure.Type != null ? tenure.Type.ToString() : null); ;
+                tenureStartDateList[index] = (tenure.StartDate != null ? tenure.StartDate.ToString() : null); ;
+                tenureEndDateList[index] = (tenure.EndDate != null ? tenure.EndDate.ToString() : null); ;
+                tenureAssetFullAddressList[index] = (tenure.AssetFullAddress != null ? tenure.AssetFullAddress.ToString() : null); ;
+                tenureAssetIdList[index] = (tenure.AssetId != null ? tenure.AssetId.ToString() : null); ;
+                tenureUprnList[index] = (tenure.Uprn != null ? tenure.Uprn.ToString() : null); ;
+                tenurePaymentReferenceList[index] = (tenure.PaymentReference != null ? tenure.PaymentReference.ToString() : null); ;
+                tenurePropertyReferenceList[index] = (tenure.PropertyReference != null ? tenure.PropertyReference.ToString() : null); ;
                 index++;
             }
 
