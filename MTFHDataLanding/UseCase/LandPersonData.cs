@@ -1,4 +1,3 @@
-#nullable enable
 using Microsoft.Extensions.Logging;
 using MTFHDataLanding.Boundary;
 using MTFHDataLanding.Gateway.Interfaces;
@@ -57,14 +56,14 @@ namespace MTFHDataLanding.UseCase
 
             var intTenures = new int[person.Tenures.Count()];
             var tenureIdList = new string[person.Tenures.Count()];
-            var tenureTypeList = new string[person.Tenures.Count()];
-            var tenureStartDateList = new string[person.Tenures.Count()];
-            var tenureEndDateList = new string[person.Tenures.Count()];
-            var tenureAssetFullAddressList = new string[person.Tenures.Count()];
-            var tenureAssetIdList = new string[person.Tenures.Count()];
-            var tenureUprnList = new string[person.Tenures.Count()];
-            var tenurePaymentReferenceList = new string[person.Tenures.Count()];
-            var tenurePropertyReferenceList = new string[person.Tenures.Count()];
+            // var tenureTypeList = new string[person.Tenures.Count()];
+            // var tenureStartDateList = new string[person.Tenures.Count()];
+            // var tenureEndDateList = new string[person.Tenures.Count()];
+            // var tenureAssetFullAddressList = new string[person.Tenures.Count()];
+            // var tenureAssetIdList = new string[person.Tenures.Count()];
+            // var tenureUprnList = new string[person.Tenures.Count()];
+            // var tenurePaymentReferenceList = new string[person.Tenures.Count()];
+            // var tenurePropertyReferenceList = new string[person.Tenures.Count()];
             int index = 0;
             foreach (var tenure in person.Tenures)
             {
@@ -73,14 +72,14 @@ namespace MTFHDataLanding.UseCase
                     intTenures[index] = 1;
                 }
                 tenureIdList[index] = (tenure.Id != null ? tenure.Id.ToString() : null);
-                tenureTypeList[index] = (tenure.Type != null ? tenure.Type.ToString() : null); ;
-                tenureStartDateList[index] = (tenure.StartDate != null ? tenure.StartDate.ToString() : null); ;
-                tenureEndDateList[index] = (tenure.EndDate != null ? tenure.EndDate.ToString() : null); ;
-                tenureAssetFullAddressList[index] = (tenure.AssetFullAddress != null ? tenure.AssetFullAddress.ToString() : null); ;
-                tenureAssetIdList[index] = (tenure.AssetId != null ? tenure.AssetId.ToString() : null); ;
-                tenureUprnList[index] = (tenure.Uprn != null ? tenure.Uprn.ToString() : null); ;
-                tenurePaymentReferenceList[index] = (tenure.PaymentReference != null ? tenure.PaymentReference.ToString() : null); ;
-                tenurePropertyReferenceList[index] = (tenure.PropertyReference != null ? tenure.PropertyReference.ToString() : null); ;
+                // tenureTypeList[index] = (tenure.Type != null ? tenure.Type.ToString() : null); ;
+                // tenureStartDateList[index] = (tenure.StartDate != null ? tenure.StartDate.ToString() : null); ;
+                // tenureEndDateList[index] = (tenure.EndDate != null ? tenure.EndDate.ToString() : null); ;
+                // tenureAssetFullAddressList[index] = (tenure.AssetFullAddress != null ? tenure.AssetFullAddress.ToString() : null); ;
+                // tenureAssetIdList[index] = (tenure.AssetId != null ? tenure.AssetId.ToString() : null); ;
+                // tenureUprnList[index] = (tenure.Uprn != null ? tenure.Uprn.ToString() : null); ;
+                // tenurePaymentReferenceList[index] = (tenure.PaymentReference != null ? tenure.PaymentReference.ToString() : null); ;
+                // tenurePropertyReferenceList[index] = (tenure.PropertyReference != null ? tenure.PropertyReference.ToString() : null);
                 index++;
             }
 
@@ -96,15 +95,15 @@ namespace MTFHDataLanding.UseCase
             var placeOfBirth = new DataColumn(new DataField<string>("placeOfBirth"), new string[] { person.PlaceOfBirth });
             var dateOfBirth = new DataColumn(new DataField<string>("dateOfBirth"), new string[] { person.DateOfBirth });
             var personTypes = new DataColumn(new DataField<IEnumerable<string>>("personTypes"), newPersonTypes, intsPersonTypes);
-            var tenureId = new DataColumn(new DataField<string?>("id"), tenureIdList, intTenures);
-            var tenureType = new DataColumn(new DataField<string?>("type"), tenureTypeList, intTenures);
-            var tenureStartDate = new DataColumn(new DataField<string?>("startDate"), tenureStartDateList, intTenures);
-            var tenureEndDate = new DataColumn(new DataField<string?>("endDate"), tenureEndDateList, intTenures);
-            var tenureAssetFullAddress = new DataColumn(new DataField<string?>("assetFullAddress"), tenureAssetFullAddressList, intTenures);
-            var tenureAssetId = new DataColumn(new DataField<string?>("assetId"), tenureAssetIdList, intTenures);
-            var tenureUprn = new DataColumn(new DataField<string?>("uprn"), tenureUprnList, intTenures);
-            var tenurePaymentReference = new DataColumn(new DataField<string?>("paymentReference"), tenurePaymentReferenceList, intTenures);
-            var tenurePropertyReference = new DataColumn(new DataField<string?>("propertyReference"), tenurePropertyReferenceList, intTenures);
+            var tenureId = new DataColumn(new DataField<string>("id"), tenureIdList, intTenures);
+            // var tenureType = new DataColumn(new DataField<string>("type"), tenureTypeList, intTenures);
+            // var tenureStartDate = new DataColumn(new DataField<string>("startDate"), tenureStartDateList, intTenures);
+            // var tenureEndDate = new DataColumn(new DataField<string>("endDate"), tenureEndDateList, intTenures);
+            // var tenureAssetFullAddress = new DataColumn(new DataField<string>("assetFullAddress"), tenureAssetFullAddressList, intTenures);
+            // var tenureAssetId = new DataColumn(new DataField<string>("assetId"), tenureAssetIdList, intTenures);
+            // var tenureUprn = new DataColumn(new DataField<string>("uprn"), tenureUprnList, intTenures);
+            // var tenurePaymentReference = new DataColumn(new DataField<string>("paymentReference"), tenurePaymentReferenceList, intTenures);
+            // var tenurePropertyReference = new DataColumn(new DataField<string>("propertyReference"), tenurePropertyReferenceList, intTenures);
             var reason = new DataColumn(new DataField<string>("reason"), new string[] { person.Reason });
             var dateTime = new DataColumn(new DataField<string>("dateTime"), new string[] { message.DateTime.ToString("o") });
             var userName = new DataColumn(new DataField<string>("userName"), new string[] { message.User.Name });
@@ -113,8 +112,10 @@ namespace MTFHDataLanding.UseCase
 
             var schema = new Schema(id.Field, title.Field, preferredTitle.Field, preferredFirstName.Field, preferredMiddleName.Field,
             preferredSurname.Field, firstName.Field, middleName.Field, surname.Field, placeOfBirth.Field, dateOfBirth.Field, personTypes.Field,
-            new ListField("tenures", new StructField("element", tenureId.Field, tenureType.Field, tenureStartDate.Field, tenureEndDate.Field,
-            tenureAssetFullAddress.Field, tenureAssetId.Field, tenureUprn.Field, tenurePaymentReference.Field, tenurePropertyReference.Field)),
+            new ListField("tenures", new StructField("element", tenureId.Field
+            // , tenureType.Field, tenureStartDate.Field, tenureEndDate.Field,
+            // tenureAssetFullAddress.Field, tenureAssetId.Field, tenureUprn.Field, tenurePaymentReference.Field, tenurePropertyReference.Field
+            )),
             reason.Field, dateTime.Field, new StructField("user", userName.Field, userEmail.Field), eventType.Field);
 
             using (MemoryStream ms = new MemoryStream())
@@ -136,14 +137,14 @@ namespace MTFHDataLanding.UseCase
                         groupWriter.WriteColumn(dateOfBirth);
                         groupWriter.WriteColumn(personTypes);
                         groupWriter.WriteColumn(tenureId);
-                        groupWriter.WriteColumn(tenureType);
-                        groupWriter.WriteColumn(tenureStartDate);
-                        groupWriter.WriteColumn(tenureEndDate);
-                        groupWriter.WriteColumn(tenureAssetFullAddress);
-                        groupWriter.WriteColumn(tenureAssetId);
-                        groupWriter.WriteColumn(tenureUprn);
-                        groupWriter.WriteColumn(tenurePaymentReference);
-                        groupWriter.WriteColumn(tenurePropertyReference);
+                        // groupWriter.WriteColumn(tenureType);
+                        // groupWriter.WriteColumn(tenureStartDate);
+                        // groupWriter.WriteColumn(tenureEndDate);
+                        // groupWriter.WriteColumn(tenureAssetFullAddress);
+                        // groupWriter.WriteColumn(tenureAssetId);
+                        // groupWriter.WriteColumn(tenureUprn);
+                        // groupWriter.WriteColumn(tenurePaymentReference);
+                        // groupWriter.WriteColumn(tenurePropertyReference);
                         groupWriter.WriteColumn(reason);
                         groupWriter.WriteColumn(dateTime);
                         groupWriter.WriteColumn(userName);
