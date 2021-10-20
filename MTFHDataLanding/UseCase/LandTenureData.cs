@@ -107,8 +107,8 @@ namespace MTFHDataLanding.UseCase
             }
 
             var id = new DataColumn(new DataField<string>("id"), new string[] { tenure.Id.ToString() });
-            var paymentReference = new DataColumn(new DataField<string>("paymentReference"), new string[] {
-                tenure.PaymentReference != null ? tenure.PaymentReference : "" });
+            // var paymentReference = new DataColumn(new DataField<string>("paymentReference"), new string[] {
+            // tenure.PaymentReference != null ? tenure.PaymentReference : "" });
 
             var householdMembersId = new DataColumn(new DataField<string>("id"), householdMembersIdList, intTenureHouseholdMembers);
             var householdMembersType = new DataColumn(new DataField<string>("type"), householdMembersTypeList, intTenureHouseholdMembers);
@@ -134,8 +134,8 @@ namespace MTFHDataLanding.UseCase
             // var chargesOriginalServiceCharge = new DataColumn(new DataField<float>("originalServiceCharge"), new float[] { tenure.Charges.OriginalServiceCharge });
 
             var startOfTenureDate = new DataColumn(new DataField<string>("startOfTenureDate"), new string[] { tenure.StartOfTenureDate.ToString() });
-            var endOfTenureDate = new DataColumn(new DataField<string>("endOfTenureDate"), new string[] {
-                tenure.EndOfTenureDate != null ? tenure.EndOfTenureDate.ToString() : "" });
+            // var endOfTenureDate = new DataColumn(new DataField<string>("endOfTenureDate"), new string[] {
+            // tenure.EndOfTenureDate != null ? tenure.EndOfTenureDate.ToString() : "" });
 
             var tenureTypeCode = new DataColumn(new DataField<string>("code"), new string[] { tenure.TenureType.Code });
             var tenureTypeDescription = new DataColumn(new DataField<string>("description"), new string[] { tenure.TenureType.Description });
@@ -168,14 +168,16 @@ namespace MTFHDataLanding.UseCase
             var userEmail = new DataColumn(new DataField<string>("userEmail"), new string[] { message.User.Email });
             var eventType = new DataColumn(new DataField<string>("eventType"), new string[] { message.EventType });
 
-            var schema = new Schema(id.Field, paymentReference.Field,
+            var schema = new Schema(id.Field,
+            // paymentReference.Field,
             new ListField("householdMembers", new StructField("element", householdMembersId.Field, householdMembersType.Field,
             householdMembersFullName.Field, householdMembersIsResponsible.Field, householdMembersDateOfBirth.Field, householdMembersPersonTenureType.Field)),
             new StructField("tenuredAsset", tenuredAssetId.Field, tenuredAssetType.Field, tenuredAssetFullAddress.Field, tenuredAssetUprn.Field),
             // new StructField("charges", chargesRent.Field, chargesCurrentBalance.Field, chargesBillingFrequency.Field, chargesServiceCharge.Field,
             // chargesOtherCharges.Field, chargesCombinedServiceCharges.Field, chargesCombinedRentCharges.Field, chargesTenancyInsuranceCharge.Field,
             // chargesOriginalRentCharge.Field, chargesOriginalServiceCharge.Field),
-            startOfTenureDate.Field, endOfTenureDate.Field,
+            startOfTenureDate.Field,
+            // endOfTenureDate.Field,
             new StructField("tenureType", tenureTypeCode.Field, tenureTypeDescription.Field), isTenanted.Field,
             // new StructField("terminated", terminatedIsTerminated.Field, terminatedReasonForTermination.Field),
             // successionDate.Field, evictionDate.Field, potentialEndDate.Field,
@@ -192,7 +194,7 @@ namespace MTFHDataLanding.UseCase
                     using (ParquetRowGroupWriter groupWriter = parquetWriter.CreateRowGroup())
                     {
                         groupWriter.WriteColumn(id);
-                        groupWriter.WriteColumn(paymentReference);
+                        // groupWriter.WriteColumn(paymentReference);
                         groupWriter.WriteColumn(householdMembersId);
                         groupWriter.WriteColumn(householdMembersType);
                         groupWriter.WriteColumn(householdMembersFullName);
@@ -214,7 +216,7 @@ namespace MTFHDataLanding.UseCase
                         // groupWriter.WriteColumn(chargesOriginalRentCharge);
                         // groupWriter.WriteColumn(chargesOriginalServiceCharge);
                         groupWriter.WriteColumn(startOfTenureDate);
-                        groupWriter.WriteColumn(endOfTenureDate);
+                        // groupWriter.WriteColumn(endOfTenureDate);
                         groupWriter.WriteColumn(tenureTypeCode);
                         groupWriter.WriteColumn(tenureTypeDescription);
                         groupWriter.WriteColumn(isTenanted);
