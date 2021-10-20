@@ -61,9 +61,9 @@ namespace MTFHDataLanding.UseCase
             // var tenureEndDateList = new string[person.Tenures.Count()];
             var tenureAssetFullAddressList = new string[person.Tenures.Count()];
             var tenureAssetIdList = new string[person.Tenures.Count()];
-            // var tenureUprnList = new string[person.Tenures.Count()];
-            // var tenurePaymentReferenceList = new string[person.Tenures.Count()];
-            // var tenurePropertyReferenceList = new string[person.Tenures.Count()];
+            var tenureUprnList = new string[person.Tenures.Count()];
+            var tenurePaymentReferenceList = new string[person.Tenures.Count()];
+            var tenurePropertyReferenceList = new string[person.Tenures.Count()];
             int index = 0;
             foreach (var tenure in person.Tenures)
             {
@@ -77,9 +77,9 @@ namespace MTFHDataLanding.UseCase
                 // tenureEndDateList[index] = (tenure.EndDate != null ? tenure.EndDate.ToString() : null); ;
                 tenureAssetFullAddressList[index] = (tenure.AssetFullAddress != null ? tenure.AssetFullAddress.ToString() : null); ;
                 tenureAssetIdList[index] = (tenure.AssetId != null ? tenure.AssetId.ToString() : null); ;
-                // tenureUprnList[index] = (tenure.Uprn != null ? tenure.Uprn.ToString() : null); ;
-                // tenurePaymentReferenceList[index] = (tenure.PaymentReference != null ? tenure.PaymentReference.ToString() : null); ;
-                // tenurePropertyReferenceList[index] = (tenure.PropertyReference != null ? tenure.PropertyReference.ToString() : null);
+                tenureUprnList[index] = (tenure.Uprn != null ? tenure.Uprn.ToString() : null); ;
+                tenurePaymentReferenceList[index] = (tenure.PaymentReference != null ? tenure.PaymentReference.ToString() : null); ;
+                tenurePropertyReferenceList[index] = (tenure.PropertyReference != null ? tenure.PropertyReference.ToString() : null);
                 index++;
             }
 
@@ -101,9 +101,9 @@ namespace MTFHDataLanding.UseCase
             // var tenureEndDate = new DataColumn(new DataField<string>("endDate"), tenureEndDateList, intTenures);
             var tenureAssetFullAddress = new DataColumn(new DataField<string>("assetFullAddress"), tenureAssetFullAddressList, intTenures);
             var tenureAssetId = new DataColumn(new DataField<string>("assetId"), tenureAssetIdList, intTenures);
-            // var tenureUprn = new DataColumn(new DataField<string>("uprn"), tenureUprnList, intTenures);
-            // var tenurePaymentReference = new DataColumn(new DataField<string>("paymentReference"), tenurePaymentReferenceList, intTenures);
-            // var tenurePropertyReference = new DataColumn(new DataField<string>("propertyReference"), tenurePropertyReferenceList, intTenures);
+            var tenureUprn = new DataColumn(new DataField<string>("uprn"), tenureUprnList, intTenures);
+            var tenurePaymentReference = new DataColumn(new DataField<string>("paymentReference"), tenurePaymentReferenceList, intTenures);
+            var tenurePropertyReference = new DataColumn(new DataField<string>("propertyReference"), tenurePropertyReferenceList, intTenures);
             var reason = new DataColumn(new DataField<string>("reason"), new string[] { person.Reason });
             var dateTime = new DataColumn(new DataField<string>("dateTime"), new string[] { message.DateTime.ToString("o") });
             var userName = new DataColumn(new DataField<string>("userName"), new string[] { message.User.Name });
@@ -113,8 +113,8 @@ namespace MTFHDataLanding.UseCase
             var schema = new Schema(id.Field, title.Field, preferredTitle.Field, preferredFirstName.Field, preferredMiddleName.Field,
             preferredSurname.Field, firstName.Field, middleName.Field, surname.Field, placeOfBirth.Field, dateOfBirth.Field, personTypes.Field,
             new ListField("tenures", new StructField("element", tenureId.Field, tenureType.Field, tenureStartDate.Field, tenureAssetFullAddress.Field,
-            tenureAssetId.Field
-            //, tenureEndDate.Field, tenureUprn.Field, tenurePaymentReference.Field, tenurePropertyReference.Field
+            tenureAssetId.Field, tenureUprn.Field, tenurePaymentReference.Field, tenurePropertyReference.Field
+            //, tenureEndDate.Field
             )),
             reason.Field, dateTime.Field, new StructField("user", userName.Field, userEmail.Field), eventType.Field);
 
@@ -142,9 +142,9 @@ namespace MTFHDataLanding.UseCase
                         // groupWriter.WriteColumn(tenureEndDate);
                         groupWriter.WriteColumn(tenureAssetFullAddress);
                         groupWriter.WriteColumn(tenureAssetId);
-                        // groupWriter.WriteColumn(tenureUprn);
-                        // groupWriter.WriteColumn(tenurePaymentReference);
-                        // groupWriter.WriteColumn(tenurePropertyReference);
+                        groupWriter.WriteColumn(tenureUprn);
+                        groupWriter.WriteColumn(tenurePaymentReference);
+                        groupWriter.WriteColumn(tenurePropertyReference);
                         groupWriter.WriteColumn(reason);
                         groupWriter.WriteColumn(dateTime);
                         groupWriter.WriteColumn(userName);
