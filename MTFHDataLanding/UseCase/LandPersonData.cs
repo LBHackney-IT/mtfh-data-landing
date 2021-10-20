@@ -64,23 +64,23 @@ namespace MTFHDataLanding.UseCase
             var tenureUprnList = new string[person.Tenures.Count()];
             var tenurePaymentReferenceList = new string[person.Tenures.Count()];
             var tenurePropertyReferenceList = new string[person.Tenures.Count()];
-            var i = 0;
-            foreach(var tenure in person.Tenures)
+            int index = 0;
+            foreach (var tenure in person.Tenures)
             {
-                if( i != 0)
+                if (index != 0)
                 {
-                    intTenures[i] = 1;
+                    intTenures[index] = 1;
                 }
-                tenureIdList[i] = tenure.Id.ToString();
-                tenureTypeList[i] = tenure.Type.ToString();
-                tenureStartDateList[i] = tenure.StartDate.ToString();
-                tenureEndDateList[i] = tenure.EndDate.ToString();
-                tenureAssetFullAddressList[i] = tenure.AssetFullAddress.ToString();
-                tenureAssetIdList[i] = tenure.AssetId.ToString();
-                tenureUprnList[i] = tenure.Uprn.ToString();
-                tenurePaymentReferenceList[i] = tenure.PaymentReference.ToString();
-                tenurePropertyReferenceList[i] = tenure.PropertyReference.ToString();
-                i++;
+                tenureIdList[index] = tenure.Id.ToString();
+                tenureTypeList[index] = tenure.Type.ToString();
+                tenureStartDateList[index] = tenure.StartDate.ToString();
+                tenureEndDateList[index] = tenure.EndDate.ToString();
+                tenureAssetFullAddressList[index] = tenure.AssetFullAddress.ToString();
+                tenureAssetIdList[index] = tenure.AssetId.ToString();
+                tenureUprnList[index] = tenure.Uprn.ToString();
+                tenurePaymentReferenceList[index] = tenure.PaymentReference.ToString();
+                tenurePropertyReferenceList[index] = tenure.PropertyReference.ToString();
+                index++;
             }
 
             var id = new DataColumn(new DataField<string>("id"), new string[] { person.Id.ToString() });
