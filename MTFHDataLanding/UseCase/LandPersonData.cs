@@ -71,15 +71,15 @@ namespace MTFHDataLanding.UseCase
                 {
                     intTenures[index] = 1;
                 }
-                tenureIdList[index] = tenure.Id.ToString();
-                tenureTypeList[index] = tenure.Type.ToString();
-                tenureStartDateList[index] = tenure.StartDate.ToString();
-                tenureEndDateList[index] = tenure.EndDate.ToString();
-                tenureAssetFullAddressList[index] = tenure.AssetFullAddress.ToString();
-                tenureAssetIdList[index] = tenure.AssetId.ToString();
-                tenureUprnList[index] = tenure.Uprn.ToString();
-                tenurePaymentReferenceList[index] = tenure.PaymentReference.ToString();
-                tenurePropertyReferenceList[index] = tenure.PropertyReference.ToString();
+                tenureIdList[index] = (tenure.Id ? tenure.Id.ToString() : null);
+                tenureTypeList[index] = (tenure.Type ? tenure.Type.ToString() : null); ;
+                tenureStartDateList[index] = (tenure.StartDate ? tenure.StartDate.ToString() : null); ;
+                tenureEndDateList[index] = (tenure.EndDate ? tenure.EndDate.ToString() : null); ;
+                tenureAssetFullAddressList[index] = (tenure.AssetFullAddress ? tenure.AssetFullAddress.ToString() : null); ;
+                tenureAssetIdList[index] = (tenure.AssetId ? tenure.AssetId.ToString() : null); ;
+                tenureUprnList[index] = (tenure.Uprn ? tenure.Uprn.ToString() : null); ;
+                tenurePaymentReferenceList[index] = (tenure.PaymentReference ? tenure.PaymentReference.ToString() : null); ;
+                tenurePropertyReferenceList[index] = (tenure.PropertyReference ? tenure.PropertyReference.ToString() : null); ;
                 index++;
             }
 
