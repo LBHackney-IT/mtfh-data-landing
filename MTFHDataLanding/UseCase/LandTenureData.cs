@@ -155,7 +155,7 @@ namespace MTFHDataLanding.UseCase
             var noticesEndDate = new DataColumn(new DataField<string>("endDate"), noticesEndDateList, intNotices);
             var noticesEffectiveDate = new DataColumn(new DataField<string>("effectiveDate"), noticesEffectiveDateList, intNotices);
 
-            var legacyReferencesName = new DataColumn(new DataField<bool>("name"), legacyReferencesNameList, intNotices);
+            var legacyReferencesName = new DataColumn(new DataField<string>("name"), legacyReferencesNameList, intNotices);
             var legacyReferencesValue = new DataColumn(new DataField<string>("value"), legacyReferencesValueList, intNotices);
 
             // var isMutualExchange = new DataColumn(new DataField<bool>("isMutualExchange"), new bool[] { (bool) tenure.IsMutualExchange });
