@@ -47,6 +47,12 @@ namespace MTFHDataLanding.UseCase
             if (person is null) throw new PersonNotFoundException(message.EntityId);
 
             _logger.LogWarning($"Person record (id: {person.Id}): ");
+            var intsPersonTypes = new int[person.personTypes.Length];
+            for(int i = 1; i < person.personTypes.Length; i++)
+            {
+                ints[i] = 1;
+            }
+
             var id = new DataColumn(new DataField<string>("id"), new string[] { person.Id.ToString() });
             var title = new DataColumn(new DataField<string>("title"), new string[] { person.Title.ToString() });
             var preferredTitle = new DataColumn(new DataField<string>("preferredTitle"), new string[] { person.PreferredTitle.ToString() });
@@ -58,6 +64,7 @@ namespace MTFHDataLanding.UseCase
             var surname = new DataColumn(new DataField<string>("surname"), new string[] { person.Surname });
             var placeOfBirth = new DataColumn(new DataField<string>("placeOfBirth"), new string[] { person.PlaceOfBirth });
             var dateOfBirth = new DataColumn(new DataField<string>("dateOfBirth"), new string[] { person.DateOfBirth });
+            var personTypes = new DataColumn(new DataField<IEnumerable<string>>("personTypes"), person.personTypes, intsPersonTypes);
             var reason = new DataColumn(new DataField<string>("reason"), new string[] { person.Reason });
             var dateTime = new DataColumn(new DataField<string>("dateTime"), new string[] { message.DateTime.ToString("o") });
             var userName = new DataColumn(new DataField<string>("userName"), new string[] { message.User.Name });
@@ -66,7 +73,7 @@ namespace MTFHDataLanding.UseCase
 
             var schema = new Schema(id.Field, title.Field, preferredTitle.Field, preferredFirstName.Field, preferredMiddleName.Field,
             preferredSurname.Field, firstName.Field, middleName.Field, surname.Field, placeOfBirth.Field, dateOfBirth.Field, reason.Field,
-            dateTime.Field, userName.Field, userEmail.Field, eventType.Field);
+            dateTime.Field, new StructField("user", userName, userEmail), eventType.Field);
 
             using (MemoryStream ms = new MemoryStream())
             {
