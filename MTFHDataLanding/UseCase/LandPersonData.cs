@@ -1,3 +1,4 @@
+#nullable enable
 using Microsoft.Extensions.Logging;
 using MTFHDataLanding.Boundary;
 using MTFHDataLanding.Gateway.Interfaces;
