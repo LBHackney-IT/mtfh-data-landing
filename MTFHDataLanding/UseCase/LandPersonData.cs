@@ -47,8 +47,8 @@ namespace MTFHDataLanding.UseCase
             if (person is null) throw new PersonNotFoundException(message.EntityId);
 
             _logger.LogWarning($"Person record (id: {person.Id}): ");
-            var intsPersonTypes = new int[person.PersonTypes.Length];
-            for (int i = 1; i < person.PersonTypes.Length; i++)
+            var intsPersonTypes = new int[person.PersonTypes.Count()];
+            for (int i = 1; i < person.PersonTypes.Count(); i++)
             {
                 intsPersonTypes[i] = 1;
             }
@@ -64,7 +64,7 @@ namespace MTFHDataLanding.UseCase
             var surname = new DataColumn(new DataField<string>("surname"), new string[] { person.Surname });
             var placeOfBirth = new DataColumn(new DataField<string>("placeOfBirth"), new string[] { person.PlaceOfBirth });
             var dateOfBirth = new DataColumn(new DataField<string>("dateOfBirth"), new string[] { person.DateOfBirth });
-            var personTypes = new DataColumn(new DataField<IEnumerable<string>>("personTypes"), person.PersonTypes, intsPersonTypes);
+            var personTypes = new DataColumn(new DataField<IEnumerable<string>>("personTypes"), person.PersonTypes.ToArray(), intsPersonTypes);
             var reason = new DataColumn(new DataField<string>("reason"), new string[] { person.Reason });
             var dateTime = new DataColumn(new DataField<string>("dateTime"), new string[] { message.DateTime.ToString("o") });
             var userName = new DataColumn(new DataField<string>("userName"), new string[] { message.User.Name });
