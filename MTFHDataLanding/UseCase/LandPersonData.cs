@@ -112,7 +112,7 @@ namespace MTFHDataLanding.UseCase
 
             var schema = new Schema(id.Field, title.Field, preferredTitle.Field, preferredFirstName.Field, preferredMiddleName.Field,
             preferredSurname.Field, firstName.Field, middleName.Field, surname.Field, placeOfBirth.Field, dateOfBirth.Field, personTypes.Field,
-            new ListField("tenures", new StructField("element", tenureId.Field , tenureType.Field
+            new ListField("tenures", new StructField("element", tenureId.Field, tenureType.Field
             //, tenureStartDate.Field, tenureEndDate.Field,
             // tenureAssetFullAddress.Field, tenureAssetId.Field, tenureUprn.Field, tenurePaymentReference.Field, tenurePropertyReference.Field
             )),
