@@ -149,14 +149,14 @@ namespace MTFHDataLanding.UseCase
             // var evictionDate = new DataColumn(new DataField<string>("evictionDate"), new string[] { tenure.EvictionDate.ToString() });
             // var potentialEndDate = new DataColumn(new DataField<string>("potentialEndDate"), new string[] { tenure.PotentialEndDate.ToString() });
 
-            // var noticesType = new DataColumn(new DataField<string>("type"), noticesTypeList, intNotices);
-            // var noticesServedDate = new DataColumn(new DataField<string>("servedDate"), noticesServedDateList, intNotices);
-            // var noticesExpiryDate = new DataColumn(new DataField<string>("expiryDate"), noticesExpiryDateList, intNotices);
-            // var noticesEndDate = new DataColumn(new DataField<string>("endDate"), noticesEndDateList, intNotices);
-            // var noticesEffectiveDate = new DataColumn(new DataField<string>("effectiveDate"), noticesEffectiveDateList, intNotices);
+            var noticesType = new DataColumn(new DataField<string>("type"), noticesTypeList, intNotices);
+            var noticesServedDate = new DataColumn(new DataField<string>("servedDate"), noticesServedDateList, intNotices);
+            var noticesExpiryDate = new DataColumn(new DataField<string>("expiryDate"), noticesExpiryDateList, intNotices);
+            var noticesEndDate = new DataColumn(new DataField<string>("endDate"), noticesEndDateList, intNotices);
+            var noticesEffectiveDate = new DataColumn(new DataField<string>("effectiveDate"), noticesEffectiveDateList, intNotices);
 
-            // var legacyReferencesName = new DataColumn(new DataField<string>("name"), legacyReferencesNameList, intNotices);
-            // var legacyReferencesValue = new DataColumn(new DataField<string>("value"), legacyReferencesValueList, intNotices);
+            // var legacyReferencesName = new DataColumn(new DataField<string>("name"), legacyReferencesNameList, intLegacyReferences);
+            // var legacyReferencesValue = new DataColumn(new DataField<string>("value"), legacyReferencesValueList, intLegacyReferences);
 
             // var isMutualExchange = new DataColumn(new DataField<bool>("isMutualExchange"), new bool[] { (bool) tenure.IsMutualExchange });
             // var informHousingBenefitsForChanges = new DataColumn(new DataField<bool>("informHousingBenefitsForChanges"), new bool[] { (bool) tenure.InformHousingBenefitsForChanges });
@@ -182,8 +182,8 @@ namespace MTFHDataLanding.UseCase
             // isTenanted.Field,
             // new StructField("terminated", terminatedIsTerminated.Field, terminatedReasonForTermination.Field),
             // successionDate.Field, evictionDate.Field, potentialEndDate.Field,
-            // new ListField("notices", new StructField("element", noticesType.Field, noticesServedDate.Field,
-            // noticesExpiryDate.Field, noticesEndDate.Field, noticesEffectiveDate.Field)),
+            new ListField("notices", new StructField("element", noticesType.Field, noticesServedDate.Field,
+            noticesExpiryDate.Field, noticesEndDate.Field, noticesEffectiveDate.Field)),
             // new ListField("legacyReferences", new StructField("element", legacyReferencesName.Field, legacyReferencesValue.Field)),
             // isMutualExchange.Field, informHousingBenefitsForChanges.Field, isSublet.Field, subletEndDate.Field,
             dateTime.Field, new StructField("user", userName.Field, userEmail.Field), eventType.Field);
@@ -226,11 +226,11 @@ namespace MTFHDataLanding.UseCase
                         // groupWriter.WriteColumn(successionDate);
                         // groupWriter.WriteColumn(evictionDate);
                         // groupWriter.WriteColumn(potentialEndDate);
-                        // groupWriter.WriteColumn(noticesType);
-                        // groupWriter.WriteColumn(noticesServedDate);
-                        // groupWriter.WriteColumn(noticesExpiryDate);
-                        // groupWriter.WriteColumn(noticesEndDate);
-                        // groupWriter.WriteColumn(noticesEffectiveDate);
+                        groupWriter.WriteColumn(noticesType);
+                        groupWriter.WriteColumn(noticesServedDate);
+                        groupWriter.WriteColumn(noticesExpiryDate);
+                        groupWriter.WriteColumn(noticesEndDate);
+                        groupWriter.WriteColumn(noticesEffectiveDate);
                         // groupWriter.WriteColumn(legacyReferencesName);
                         // groupWriter.WriteColumn(legacyReferencesValue);
                         // groupWriter.WriteColumn(isMutualExchange);
