@@ -1,5 +1,4 @@
 using AutoFixture;
-using Hackney.Core.Testing.Shared.E2E;
 using Hackney.Shared.Person.Boundary.Response;
 using Hackney.Shared.Person.Domain;
 using System;

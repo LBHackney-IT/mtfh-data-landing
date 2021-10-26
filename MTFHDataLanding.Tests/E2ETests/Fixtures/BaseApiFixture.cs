@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Hackney.Core.Testing.Shared.E2E
+namespace MTFHDataLanding.Tests.E2ETests.Fixtures
 {
     public class BaseApiFixture<T> : IDisposable where T : class
     {

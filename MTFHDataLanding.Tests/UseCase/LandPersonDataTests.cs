@@ -9,6 +9,7 @@ using FluentAssertions;
 using Moq;
 using System;
 using System.Threading.Tasks;
+using Amazon.S3;
 using Xunit;
 
 namespace MTFHDataLanding.Tests.UseCase
@@ -17,6 +18,7 @@ namespace MTFHDataLanding.Tests.UseCase
     public class LandPersonDataTests
     {
         private readonly Mock<IPersonApi> _mockPersonApi;
+        private readonly Mock<IAmazonS3> _mockS3;
         private readonly Mock<ILogger<LandPersonData>> _mockLogger;
         private readonly LandPersonData _sut;
 
@@ -33,7 +35,9 @@ namespace MTFHDataLanding.Tests.UseCase
 
             _mockPersonApi = new Mock<IPersonApi>();
             _mockLogger = new Mock<ILogger<LandPersonData>>();
-            _sut = new LandPersonData(_mockPersonApi.Object, _mockLogger.Object);
+            _mockS3 = new Mock<IAmazonS3>();
+
+            _sut = new LandPersonData(_mockPersonApi.Object, _mockLogger.Object, _mockS3.Object);
 
             _message = CreateMessage();
             _person = CreatePerson(_message.EntityId);

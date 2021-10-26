@@ -14,6 +14,7 @@ using System.Linq;
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Transfer;
+using MTFHDataLanding.Helpers;
 
 namespace MTFHDataLanding.UseCase
 {
@@ -21,23 +22,23 @@ namespace MTFHDataLanding.UseCase
     {
         private readonly IPersonApi _personApi;
         private readonly ILogger<LandPersonData> _logger;
+        private readonly IAmazonS3 _s3Client;
 
         public LandPersonData(IPersonApi personApi,
-            ILogger<LandPersonData> logger)
+            ILogger<LandPersonData> logger,
+            IAmazonS3 s3Client)
         {
             _personApi = personApi;
             _logger = logger;
+            _s3Client = s3Client;
         }
 
         [LogCall]
         public async Task ProcessMessageAsync(EntityEventSns message)
         {
-            String bucketName = "mtfh-data-landing-spike";
-            String keyName = "landing/mtfh/persons/";
+            
             RegionEndpoint bucketRegion = RegionEndpoint.EUWest2;
-
-            IAmazonS3 s3Client = new AmazonS3Client(bucketRegion);
-            var fileTransferUtility = new TransferUtility(s3Client);
+            var fileTransferUtility = new TransferUtility(_s3Client);
 
             if (message is null) throw new ArgumentNullException(nameof(message));
 
@@ -153,7 +154,7 @@ namespace MTFHDataLanding.UseCase
                 string year = message.DateTime.ToString("yyyy");
                 string month = message.DateTime.ToString("MM");
                 string day = message.DateTime.ToString("dd");
-                await fileTransferUtility.UploadAsync(ms, bucketName, keyName + "year=" + year + "/month=" + month + "/day=" + day + "/" +
+                await fileTransferUtility.UploadAsync(ms, Constants.BUCKET_NAME, Constants.KEY_NAME+ "year=" + year + "/month=" + month + "/day=" + day + "/" +
                 message.DateTime.ToString("HH\\:mm\\:ss.fffffff") + ".parquet");
             }
         }

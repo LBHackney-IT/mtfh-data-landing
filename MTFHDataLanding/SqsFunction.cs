@@ -11,8 +11,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using MTFHDataLanding.Interfaces;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
@@ -33,25 +33,15 @@ namespace MTFHDataLanding
         public SqsFunction()
         { }
 
-        private static JsonSerializerOptions CreateJsonOptions()
-        {
-            var options = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = true
-            };
-            options.Converters.Add(new JsonStringEnumConverter());
-            return options;
-        }
-
         protected override void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
             services.AddScoped<ILandPersonData, LandPersonData>();
             services.AddScoped<ILandTenureData, LandTenureData>();
-
             services.AddScoped<IPersonApi, PersonApi>();
             services.AddScoped<ITenureInfoApi, TenureInfoApi>();
+            services.AddScoped<ITenureDataFactory, TenureDataFactory>();
+            services.AddScoped<IMessageProcessor, MessageProcessor>();
 
             services.AddTransient<IApiGateway, ApiGateway>();
 
@@ -68,64 +58,11 @@ namespace MTFHDataLanding
         /// <returns></returns>
         public async Task FunctionHandler(SQSEvent evnt, ILambdaContext context)
         {
+            var messageProcessor = ServiceProvider.GetService<IMessageProcessor>();
             // Do this in parallel???
             foreach (var message in evnt.Records)
             {
-                await ProcessMessageAsync(message, context).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary>
-        /// Method called to process every distinct message received.
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        [LogCall(LogLevel.Information)]
-        private async Task ProcessMessageAsync(SQSEvent.SQSMessage message, ILambdaContext context)
-        {
-            context.Logger.LogLine($"Processing message {message.MessageId}");
-
-            var entityEvent = JsonSerializer.Deserialize<EntityEventSns>(message.Body, _jsonOptions);
-
-            using (Logger.BeginScope("CorrelationId: {CorrelationId}", entityEvent.CorrelationId))
-            {
-                try
-                {
-                    IMessageProcessing processor = null;
-                    switch (entityEvent.EventType)
-                    {
-                        case EventTypes.PersonCreatedEvent:
-                            {
-                                processor = ServiceProvider.GetService<ILandPersonData>();
-                                break;
-                            }
-                        case EventTypes.PersonUpdatedEvent:
-                            {
-                                processor = ServiceProvider.GetService<ILandPersonData>();
-                                break;
-                            }
-                        case EventTypes.TenureCreatedEvent:
-                            {
-                                processor = ServiceProvider.GetService<ILandTenureData>();
-                                break;
-                            }
-                        case EventTypes.TenureUpdatedEvent:
-                            {
-                                processor = ServiceProvider.GetService<ILandTenureData>();
-                                break;
-                            }
-                        default:
-                            throw new ArgumentException($"Unknown event type: {entityEvent.EventType} on message id: {message.MessageId}");
-                    }
-
-                    await processor.ProcessMessageAsync(entityEvent).ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    Logger.LogError(ex, $"Exception processing message id: {message.MessageId}; type: {entityEvent.EventType}; entity id: {entityEvent.EntityId}");
-                    throw; // AWS will handle retry/moving to the dead letter queue
-                }
+                await messageProcessor.ProcessMessageAsync(message, context).ConfigureAwait(false);
             }
         }
     }
