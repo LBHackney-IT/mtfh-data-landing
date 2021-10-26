@@ -27,24 +27,29 @@ namespace MTFHDataLanding
         protected IConfigurationRoot Configuration { get; }
         protected IServiceProvider ServiceProvider { get; }
         protected ILogger Logger { get; }
+        protected IServiceCollection services;
 
-        internal BaseFunction()
+        internal BaseFunction(IServiceCollection services = null)
         {
             AWSSDKHandler.RegisterXRayForAllServices();
 
-            var services = new ServiceCollection();
+            if (services == null)
+                this.services = new ServiceCollection();
+            else
+                this.services = services;
+
             var builder = new ConfigurationBuilder();
 
             Configure(builder);
             Configuration = builder.Build();
-            services.AddSingleton<IConfiguration>(Configuration);
+            this.services.AddSingleton<IConfiguration>(Configuration);
 
-            services.ConfigureLambdaLogging(Configuration);
-            services.AddLogCallAspect();
+            this.services.ConfigureLambdaLogging(Configuration);
+            this.services.AddLogCallAspect();
 
-            ConfigureServices(services);
+            ConfigureServices();
 
-            ServiceProvider = services.BuildServiceProvider();
+            ServiceProvider = this.services.BuildServiceProvider();
             ServiceProvider.UseLogCall();
 
             Logger = ServiceProvider.GetRequiredService<ILogger<BaseFunction>>();
@@ -72,8 +77,7 @@ namespace MTFHDataLanding
         /// Base implementation
         /// Automatically adds LogCallAspect
         /// </summary>
-        /// <param name="services"></param>
-        protected virtual void ConfigureServices(IServiceCollection services)
+        protected virtual void ConfigureServices()
         {
             services.AddLogCallAspect();
         }
