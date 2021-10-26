@@ -49,7 +49,7 @@ namespace MTFHDataLanding
             services.AddScoped(typeof(ILogger<>), typeof(Logger<>));
             services.TryAddScoped<IAmazonS3>(x =>
             {
-                return new AmazonS3Client(new AmazonS3Config {RegionEndpoint = RegionEndpoint.EUWest2});
+                return new AmazonS3Client(new AmazonS3Config { RegionEndpoint = RegionEndpoint.EUWest2 });
             });
 
             base.ConfigureServices();
