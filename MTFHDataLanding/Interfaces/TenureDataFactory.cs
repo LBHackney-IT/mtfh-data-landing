@@ -20,21 +20,21 @@ namespace MTFHDataLanding.Interfaces
             switch (entityEvent.EventType)
             {
                 case EventTypes.PersonCreatedEvent:
-                {
-                    return _serviceProvider.GetService<ILandPersonData>();
-                }
+                    {
+                        return _serviceProvider.GetService<ILandPersonData>();
+                    }
                 case EventTypes.PersonUpdatedEvent:
-                {
-                    return _serviceProvider.GetService<ILandPersonData>();
-                }
+                    {
+                        return _serviceProvider.GetService<ILandPersonData>();
+                    }
                 case EventTypes.TenureCreatedEvent:
-                {
-                    return _serviceProvider.GetService<ILandTenureData>();
-                }
+                    {
+                        return _serviceProvider.GetService<ILandTenureData>();
+                    }
                 case EventTypes.TenureUpdatedEvent:
-                {
-                    return _serviceProvider.GetService<ILandTenureData>();
-                }
+                    {
+                        return _serviceProvider.GetService<ILandTenureData>();
+                    }
                 default:
                     throw new ArgumentException($"Unknown event type: {entityEvent.EventType} on message id: {message.MessageId}");
             }

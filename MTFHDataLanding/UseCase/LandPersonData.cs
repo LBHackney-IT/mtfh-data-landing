@@ -36,7 +36,7 @@ namespace MTFHDataLanding.UseCase
         [LogCall]
         public async Task ProcessMessageAsync(EntityEventSns message)
         {
-            
+
             RegionEndpoint bucketRegion = RegionEndpoint.EUWest2;
             var fileTransferUtility = new TransferUtility(_s3Client);
 
@@ -154,7 +154,7 @@ namespace MTFHDataLanding.UseCase
                 string year = message.DateTime.ToString("yyyy");
                 string month = message.DateTime.ToString("MM");
                 string day = message.DateTime.ToString("dd");
-                await fileTransferUtility.UploadAsync(ms, Constants.BUCKET_NAME, Constants.KEY_NAME+ "year=" + year + "/month=" + month + "/day=" + day + "/" +
+                await fileTransferUtility.UploadAsync(ms, Constants.BUCKET_NAME, Constants.KEY_NAME + "year=" + year + "/month=" + month + "/day=" + day + "/" +
                 message.DateTime.ToString("HH\\:mm\\:ss.fffffff") + ".parquet");
             }
         }
