@@ -12,6 +12,9 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Amazon;
+using Amazon.S3;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using MTFHDataLanding.Interfaces;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
@@ -30,10 +33,10 @@ namespace MTFHDataLanding
         /// the AWS credentials will come from the IAM role associated with the function and the AWS region will be set to the
         /// region the Lambda function is executed in.
         /// </summary>
-        public SqsFunction()
+        public SqsFunction(IServiceCollection services = null) : base(services)
         { }
 
-        protected override void ConfigureServices(IServiceCollection services)
+        protected override void ConfigureServices()
         {
             services.AddHttpClient();
             services.AddScoped<ILandPersonData, LandPersonData>();
@@ -42,10 +45,14 @@ namespace MTFHDataLanding
             services.AddScoped<ITenureInfoApi, TenureInfoApi>();
             services.AddScoped<ITenureDataFactory, TenureDataFactory>();
             services.AddScoped<IMessageProcessor, MessageProcessor>();
+            services.AddScoped<IApiGateway, ApiGateway>();
+            services.AddScoped(typeof(ILogger<>), typeof(Logger<>));
+            services.TryAddScoped<IAmazonS3>(x =>
+            {
+                return new AmazonS3Client(new AmazonS3Config { RegionEndpoint = RegionEndpoint.EUWest2 });
+            });
 
-            services.AddTransient<IApiGateway, ApiGateway>();
-
-            base.ConfigureServices(services);
+            base.ConfigureServices();
         }
 
 

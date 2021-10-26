@@ -36,8 +36,6 @@ namespace MTFHDataLanding.UseCase
         [LogCall]
         public async Task ProcessMessageAsync(EntityEventSns message)
         {
-
-            RegionEndpoint bucketRegion = RegionEndpoint.EUWest2;
             var fileTransferUtility = new TransferUtility(_s3Client);
 
             if (message is null) throw new ArgumentNullException(nameof(message));

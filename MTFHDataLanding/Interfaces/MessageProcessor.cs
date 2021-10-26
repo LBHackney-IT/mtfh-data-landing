@@ -13,9 +13,9 @@ namespace MTFHDataLanding.Interfaces
     public class MessageProcessor : IMessageProcessor
     {
         private readonly ITenureDataFactory _tenureDataFactory;
-        private ILogger Logger { get; }
+        private ILogger<MessageProcessor> Logger { get; }
 
-        public MessageProcessor(ILogger logger, ITenureDataFactory tenureDataFactory)
+        public MessageProcessor(ILogger<MessageProcessor> logger, ITenureDataFactory tenureDataFactory)
         {
             _tenureDataFactory = tenureDataFactory;
             Logger = logger;
