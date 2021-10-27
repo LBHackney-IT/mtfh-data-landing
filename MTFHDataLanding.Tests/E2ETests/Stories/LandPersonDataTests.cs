@@ -44,9 +44,19 @@ namespace MTFHDataLanding.Tests.E2ETests.Stories
         {
             var personId = Guid.NewGuid();
             this.Given(g => _personApiFixture.GivenThePersonDoesNotExist(personId))
-                .When(w => _steps.WhenTheFunctionIsTriggered(personId))
+                .When(w => _steps.WhenTheFunctionIsTriggered(personId, false))
                 .Then(t => _steps.ThenTheCorrelationIdWasUsedInTheApiCall(_personApiFixture.ReceivedCorrelationIds.First()))
                 .Then(t => _steps.ThenAPersonNotFoundExceptionIsThrown(personId))
+                .BDDfy();
+        }
+
+        [Fact]
+        public void UpdatedPersonTest()
+        {
+            var personId = Guid.NewGuid();
+            this.Given(g => _personApiFixture.GivenThePersonExists(personId))
+                .When(w => _steps.WhenTheFunctionIsTriggered(personId, true))
+                .Then(t => _steps.ThenThePersonIsPersisted(personId))
                 .BDDfy();
         }
     }

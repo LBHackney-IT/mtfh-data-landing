@@ -20,6 +20,8 @@
     <PackageReference Include="Amazon.Lambda.SQSEvents" Version="2.0.0" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.3.15" />
     <PackageReference Include="AWSXRayRecorder.Handlers.AwsSdk" Version="2.8.3" />
+    <PackageReference Include="ChoETL.JSON" Version="1.2.1.28" />
+    <PackageReference Include="ChoETL.Parquet" Version="1.0.1.12" />
     <PackageReference Include="Hackney.Core.DynamoDb" Version="1.30.0" />
     <PackageReference Include="Hackney.Core.Logging" Version="1.30.0" />
     <PackageReference Include="Hackney.Shared.Person" Version="0.8.0" />
@@ -32,6 +34,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Parquet.Net" Version="3.9.1" />
   </ItemGroup>
     

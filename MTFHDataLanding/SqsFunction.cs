@@ -1,16 +1,12 @@
 using Amazon.Lambda.Core;
 using Amazon.Lambda.SQSEvents;
-using MTFHDataLanding.Boundary;
 using MTFHDataLanding.Gateway;
 using MTFHDataLanding.Gateway.Interfaces;
 using MTFHDataLanding.UseCase;
 using MTFHDataLanding.UseCase.Interfaces;
-using Hackney.Core.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Amazon;
 using Amazon.S3;
@@ -41,11 +37,11 @@ namespace MTFHDataLanding
             services.AddHttpClient();
             services.AddScoped<ILandPersonData, LandPersonData>();
             services.AddScoped<ILandTenureData, LandTenureData>();
-            services.AddScoped<IPersonApi, PersonApi>();
+            services.TryAddScoped<IPersonApi, PersonApi>();
             services.AddScoped<ITenureInfoApi, TenureInfoApi>();
             services.AddScoped<ITenureDataFactory, TenureDataFactory>();
             services.AddScoped<IMessageProcessor, MessageProcessor>();
-            services.AddScoped<IApiGateway, ApiGateway>();
+            services.TryAddScoped<IApiGateway, ApiGateway>();
             services.AddScoped(typeof(ILogger<>), typeof(Logger<>));
             services.TryAddScoped<IAmazonS3>(x =>
             {

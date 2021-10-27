@@ -50,14 +50,7 @@ namespace MTFHDataLanding.Tests.E2ETests.Fixtures
         {
             return GivenThePersonExists(personId, true, PersonType.Tenant);
         }
-        public PersonResponseObject GivenThePersonExists(Guid personId, bool hasTenure)
-        {
-            return GivenThePersonExists(personId, hasTenure, PersonType.Tenant);
-        }
-        public PersonResponseObject GivenThePersonExists(Guid personId, PersonType personType)
-        {
-            return GivenThePersonExists(personId, true, personType);
-        }
+
         public PersonResponseObject GivenThePersonExists(Guid personId, bool hasTenure, PersonType personType)
         {
             int numberOfTenures = hasTenure ? 1 : 0;

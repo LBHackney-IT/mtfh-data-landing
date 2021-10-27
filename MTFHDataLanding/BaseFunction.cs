@@ -1,6 +1,3 @@
-using Amazon.XRay.Recorder.Core;
-using Amazon.XRay.Recorder.Core.Strategies;
-using Amazon.XRay.Recorder.Handlers.AwsSdk;
 using MTFHDataLanding.Infrastructure;
 using Hackney.Core.Logging;
 using Microsoft.Extensions.Configuration;
@@ -31,7 +28,7 @@ namespace MTFHDataLanding
 
         internal BaseFunction(IServiceCollection services = null)
         {
-            AWSSDKHandler.RegisterXRayForAllServices();
+            //AWSSDKHandler.RegisterXRayForAllServices();
 
             if (services == null)
                 this.services = new ServiceCollection();
