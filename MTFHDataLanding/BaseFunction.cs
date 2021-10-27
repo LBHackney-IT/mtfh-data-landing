@@ -8,6 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using System.Text.Json;
+using Amazon.XRay.Recorder.Handlers.AwsSdk;
 
 namespace MTFHDataLanding
 {
@@ -28,7 +29,7 @@ namespace MTFHDataLanding
 
         internal BaseFunction(IServiceCollection services = null)
         {
-            //AWSSDKHandler.RegisterXRayForAllServices();
+            AWSSDKHandler.RegisterXRayForAllServices();
 
             if (services == null)
                 this.services = new ServiceCollection();

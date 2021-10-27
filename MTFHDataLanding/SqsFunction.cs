@@ -29,8 +29,13 @@ namespace MTFHDataLanding
         /// the AWS credentials will come from the IAM role associated with the function and the AWS region will be set to the
         /// region the Lambda function is executed in.
         /// </summary>
-        public SqsFunction(IServiceCollection services = null) : base(services)
+        public SqsFunction() : base(null)
         { }
+
+        public SqsFunction(ServiceCollection serviceCollection) : base(serviceCollection)
+        {
+            
+        }
 
         protected override void ConfigureServices()
         {
