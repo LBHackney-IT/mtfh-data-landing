@@ -2,6 +2,10 @@ using AutoFixture;
 using Hackney.Shared.Person.Boundary.Response;
 using Hackney.Shared.Person.Domain;
 using System;
+using Amazon.Runtime;
+using Amazon.S3;
+using Amazon.S3.Model;
+using MTFHDataLanding.Helpers;
 
 namespace MTFHDataLanding.Tests.E2ETests.Fixtures
 {
@@ -16,6 +20,18 @@ namespace MTFHDataLanding.Tests.E2ETests.Fixtures
         {
             Environment.SetEnvironmentVariable("PersonApiUrl", PersonApiRoute);
             Environment.SetEnvironmentVariable("PersonApiToken", PersonApiToken);
+
+            try
+            {
+                var bucketResult = CreateTestS3Client().PutBucketAsync(new PutBucketRequest
+                {
+                    BucketName = Constants.BUCKET_NAME,
+                    UseClientRegion = true
+                }).Result;
+            }
+            catch
+            {
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -50,18 +66,19 @@ namespace MTFHDataLanding.Tests.E2ETests.Fixtures
         {
             return GivenThePersonExists(personId, true, PersonType.Tenant);
         }
-        public PersonResponseObject GivenThePersonExists(Guid personId, bool hasTenure)
-        {
-            return GivenThePersonExists(personId, hasTenure, PersonType.Tenant);
-        }
-        public PersonResponseObject GivenThePersonExists(Guid personId, PersonType personType)
-        {
-            return GivenThePersonExists(personId, true, personType);
-        }
+
         public PersonResponseObject GivenThePersonExists(Guid personId, bool hasTenure, PersonType personType)
         {
             int numberOfTenures = hasTenure ? 1 : 0;
             return GivenThePersonExistsWithMultipleTenures(personId, numberOfTenures, personType);
+        }
+        private IAmazonS3 CreateTestS3Client()
+        {
+            return new AmazonS3Client(new BasicAWSCredentials("A", "B"), new AmazonS3Config
+            {
+                ServiceURL = "http://localhost:4566",
+                ForcePathStyle = true
+            });
         }
     }
 }

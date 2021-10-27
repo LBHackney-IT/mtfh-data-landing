@@ -12,8 +12,6 @@ services:
       - 3000:3000
     environment:
      - ENVIRONMENT=LocalDevelopment
-     - DynamoDb_LocalMode=true
-     - DynamoDb_LocalServiceUrl=http://dynamodb-database:8000
      - AWS_REGION=eu-west-2
      - AWS_ACCESS_KEY_ID=local
      - AWS_SECRET_ACCESS_KEY=local
@@ -32,18 +30,21 @@ services:
       - AWS_REGION=eu-west-2
       - AWS_ACCESS_KEY_ID=local
       - AWS_SECRET_ACCESS_KEY=local
-  localstack:
-    container_name: localstack
-    image: localstack/localstack    
-    hostname: awslocal    
-    ports:
-      - "4566:4566"      
+      
+  localstack-s3:
+    image: localstack/localstack:latest
+    container_name: localstack-s3
     environment:
-      - SERVICES=s3
-      - DEBUG=1                  
-      - DOCKER_HOST=unix:///var/run/docker.sock
-      - HOST_TMP_FOLDER=/tmp/localstack      
+     - SERVICES=s3
+     - DEFAULT_REGION=eu-west-2
+     - DATA_DIR=/tmp/localstack/data
+    ports:
+     - "4566:4566"
     volumes:
-      - "./.localstack:/tmp/localstack"
-      - "/var/run/docker.sock:/var/run/docker.sock"
+      - localstack-data:/tmp/localstack
+  
+volumes:
+
+    localstack-data:
+      name: localstack-data
       

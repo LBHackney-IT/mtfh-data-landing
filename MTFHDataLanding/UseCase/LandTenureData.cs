@@ -8,7 +8,6 @@ using System;
 using System.Threading.Tasks;
 using Parquet;
 using Parquet.Data;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Amazon;

@@ -1,6 +1,3 @@
-using Amazon.XRay.Recorder.Core;
-using Amazon.XRay.Recorder.Core.Strategies;
-using Amazon.XRay.Recorder.Handlers.AwsSdk;
 using MTFHDataLanding.Infrastructure;
 using Hackney.Core.Logging;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using System.Text.Json;
+using Amazon.XRay.Recorder.Handlers.AwsSdk;
 
 namespace MTFHDataLanding
 {
