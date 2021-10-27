@@ -34,7 +34,7 @@ namespace MTFHDataLanding
 
         public SqsFunction(ServiceCollection serviceCollection) : base(serviceCollection)
         {
-            
+
         }
 
         protected override void ConfigureServices()
