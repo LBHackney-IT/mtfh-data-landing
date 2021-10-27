@@ -60,12 +60,6 @@ namespace MTFHDataLanding.UseCase
                     string month = message.DateTime.ToString("MM");
                     string day = message.DateTime.ToString("dd");
 
-                    var bucket = await _s3Client.PutBucketAsync(new PutBucketRequest
-                    {
-                        BucketName = Constants.BUCKET_NAME,
-                        UseClientRegion = true
-                    });
-
                     PutObjectRequest putRequest = new PutObjectRequest
                     {
                         BucketName = Constants.BUCKET_NAME,
