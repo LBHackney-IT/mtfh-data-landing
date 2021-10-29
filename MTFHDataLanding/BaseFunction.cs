@@ -29,7 +29,7 @@ namespace MTFHDataLanding
 
         internal BaseFunction(IServiceCollection services = null)
         {
-            AWSSDKHandler.RegisterXRayForAllServices();
+            //AWSSDKHandler.RegisterXRayForAllServices();
 
             if (services == null)
                 this.services = new ServiceCollection();
