@@ -8,7 +8,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using System.Text.Json;
-using Amazon.XRay.Recorder.Handlers.AwsSdk;
 
 namespace MTFHDataLanding
 {
