@@ -19,23 +19,18 @@ namespace MTFHDataLanding.UseCase
     public class LandPersonData : ILandPersonData
     {
         private readonly IPersonApi _personApi;
-        private readonly ILogger<LandPersonData> _logger;
         private readonly IAmazonS3 _s3Client;
 
         public LandPersonData(IPersonApi personApi,
-            ILogger<LandPersonData> logger,
             IAmazonS3 s3Client)
         {
             _personApi = personApi;
-            _logger = logger;
             _s3Client = s3Client;
         }
 
         [LogCall]
         public async Task ProcessMessageAsync(EntityEventSns message)
         {
-            var fileTransferUtility = new TransferUtility(_s3Client);
-
             if (message is null) throw new ArgumentNullException(nameof(message));
 
             // 1. Get Person from Person service API
@@ -53,18 +48,11 @@ namespace MTFHDataLanding.UseCase
                 PutObjectRequest putRequest = new PutObjectRequest
                 {
                     BucketName = Constants.BUCKET_NAME,
-                    Key = Strings.GenerateFileName(message, year, month, day),
+                    Key = Strings.GenerateFileName(message, Constants.PERSONS_KEY_NAME, year, month, day),
                     InputStream = memoryStream
                 };
 
-                try
-                {
-                    await _s3Client.PutObjectAsync(putRequest);
-                }
-                catch (Exception ex)
-                {
-                    var x = ex;
-                }
+                await _s3Client.PutObjectAsync(putRequest);
             }
         }
     }

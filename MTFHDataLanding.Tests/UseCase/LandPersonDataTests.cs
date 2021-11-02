@@ -37,7 +37,7 @@ namespace MTFHDataLanding.Tests.UseCase
             _mockLogger = new Mock<ILogger<LandPersonData>>();
             _mockS3 = new Mock<IAmazonS3>();
 
-            _sut = new LandPersonData(_mockPersonApi.Object, _mockLogger.Object, _mockS3.Object);
+            _sut = new LandPersonData(_mockPersonApi.Object, _mockS3.Object);
 
             _message = CreateMessage();
             _person = CreatePerson(_message.EntityId);
