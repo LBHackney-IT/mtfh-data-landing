@@ -11,11 +11,9 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Amazon.Runtime;
 using Amazon.S3;
-using Amazon.S3.Model;
 using AutoFixture;
 using Microsoft.Extensions.DependencyInjection;
 using MTFHDataLanding.Gateway.Interfaces;
-using MTFHDataLanding.Helpers;
 using Xunit;
 
 namespace MTFHDataLanding.Tests.E2ETests.Steps

@@ -1,6 +1,5 @@
 using System;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.SQSEvents;
@@ -25,7 +24,7 @@ namespace MTFHDataLanding.Interfaces
         {
             context.Logger.LogLine($"Processing message {message.MessageId}");
 
-            var entityEvent = JsonSerializer.Deserialize<EntityEventSns>(message.Body, CreateJsonOptions());
+            var entityEvent = JsonSerializer.Deserialize<EntityEventSns>(message.Body, Helpers.Json.CreateJsonOptions());
 
             using (Logger.BeginScope("CorrelationId: {CorrelationId}", entityEvent.CorrelationId))
             {
@@ -42,15 +41,6 @@ namespace MTFHDataLanding.Interfaces
             }
         }
 
-        private static JsonSerializerOptions CreateJsonOptions()
-        {
-            var options = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = true
-            };
-            options.Converters.Add(new JsonStringEnumConverter());
-            return options;
-        }
+
     }
 }
